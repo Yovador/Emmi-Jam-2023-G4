@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerBehavior : MonoBehaviour, ILightReceiver
 {
     Vector3 direction;
-    public float speed;
-    public Rigidbody rb;
+    [SerializeField]
+    private float _speed;
+    [SerializeField]
+    private PlayerGrab _playerGrab;
+    private Rigidbody _rb;
+    [HideInInspector]
     public bool isDragging = false;
     public PlayerGrab playerGrab;
     public GameObject terrain;
@@ -14,60 +19,68 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
-        if (direction != Vector3.zero) isMoving = true;
-        else isMoving = false;
-     
-        if (Input.GetKey(KeyCode.A)) //turn left
+        direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
         {
-            terrain.transform.RotateAround(transform.position, 5f);
-        } 
-        if (Input.GetKeyDown(KeyCode.E)) //turn right
-        {
+            Debug.Log("[Ply] Interact");
+            _playerGrab.interactable.Interact();
+            direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+            if (direction != Vector3.zero) isMoving = true;
+            else isMoving = false;
 
+            if (Input.GetKey(KeyCode.A)) //turn left
+            {
+                terrain.transform.RotateAround(transform.position, 5f);
+            }
+            if (Input.GetKeyDown(KeyCode.E)) //turn right
+            {
+
+            }
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        if (!isDragging) { //normal player movement
-            if (isMoving) transform.forward = direction; 
-            rb.velocity = direction * speed * Time.fixedDeltaTime;
-        }
-        else //dragging player movement
+        if (direction != Vector3.zero)
         {
-            if (playerGrab.colliding != null && playerGrab.colliding.isActive && Input.GetKey(KeyCode.Space))
+            if (!isDragging) { //normal player movement
+                transform.forward = direction;
+                _rb.velocity = direction * _speed * Time.deltaTime;
+            }
+            else //dragging player movement
             {
-                switch (playerGrab.colliding.movementDirection)
+                Debug.Log("[Ply] Player Drag");
+                if (_playerGrab.interactable == null) { return; }
+                GameObject interactObj = (_playerGrab.interactable as MonoBehaviour).gameObject;
+                if (interactObj.activeInHierarchy && Input.GetKey(KeyCode.Space))
                 {
-                    case Interactable.MovementDirection.Horizontal:
-                        if ((direction.x > 0.5f && direction.z > 0.5f) || (direction.x < -0.5f && direction.z < -0.5f)) 
-                        {
-                            playerGrab.colliding.rb.velocity = new Vector3(direction.x, 0, direction.z) * speed * Time.deltaTime;
-                            rb.velocity = new Vector3(direction.x, 0, direction.z) * speed * Time.deltaTime;
-                        }
-                        break;
-                    case Interactable.MovementDirection.Vertical:
-                        if (direction.x > 0.5f && direction.z < -0.5f)
-                        {
-                            Debug.Log("right");
-                            playerGrab.colliding.rb.velocity = new Vector3(direction.x, 0, direction.z) * speed * Time.deltaTime;
-                            rb.velocity = new Vector3(direction.x, 0, direction.z) * speed * Time.deltaTime;
-                        } 
-                        if (direction.x < 0 && direction.z > 0)
-                        {
-                            Debug.Log("left");
-                            playerGrab.colliding.rb.velocity = new Vector3(direction.x, 0, direction.z) * speed * Time.deltaTime;
-                            rb.velocity = new Vector3(direction.x, 0, direction.z) * speed * Time.deltaTime;
-                        }
-                        break;
+                    DraggingBehaviour();
                 }
             }
+        }
+    }
+
+    void DraggingBehaviour()
+    {
+        Debug.Log("[Ply] Player Dragging Behaviour");
+        if (_playerGrab.interactable.GetType() != typeof(MovableBloc)) { return; }
+        MovableBloc movableBloc = _playerGrab.interactable as MovableBloc;
+        Debug.Log($"[Ply] Movable Bloc = {movableBloc.name}");
+        switch (movableBloc.movementDirection)
+        {
+            case MovableBloc.MovementDirection.Horizontal:
+                movableBloc.rb.velocity = new Vector3(direction.x, 0, 0) * _speed * Time.deltaTime;
+                _rb.velocity = new Vector3(direction.x, 0, 0) * _speed * Time.deltaTime;
+                break;
+            case MovableBloc.MovementDirection.Vertical:
+                movableBloc.rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.deltaTime;
+                _rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.deltaTime;
+                break;
         }
     }
 

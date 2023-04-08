@@ -12,6 +12,7 @@ public class LevelInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container.Bind<LevelData>().FromInstance(_levelData);
+        Container.Bind<PlayerBehavior>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<List<ILightReceiver>>().FromInstance(LightReceivers());
     }
 

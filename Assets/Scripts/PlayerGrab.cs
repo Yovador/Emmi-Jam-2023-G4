@@ -1,46 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline;
+using System.Linq;
 using UnityEngine;
-using static Interactable;
+using Zenject;
+using static MovableBloc;
 
 public class PlayerGrab : MonoBehaviour
 {
-
-    public PlayerBehavior playerBehavior;
-    public Interactable colliding;
-
-    private void Start()
-    {
-        playerBehavior = GetComponentInParent<PlayerBehavior>();
-    }
+    [Inject]
+    private PlayerBehavior playerBehavior;
+    public IInteractable interactable;
 
     void Update()
     {
-        if (colliding == null) return;
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            playerBehavior.isDragging = true;
-            colliding.ActivateMove(true);
+        if(interactable != null && interactable.GetType() == typeof(MovableBloc))
+        {
+            DragBehavior();
         }
-        if (Input.GetKeyUp(KeyCode.Space))
-        { 
+    }
+
+    private void DragBehavior()
+    {
+        if (interactable == null) return;
+        MovableBloc movable = interactable as MovableBloc;
+        Debug.Log($"[Ply] Drag {(interactable as MonoBehaviour).name}");
+        if (movable == null) { return; }
+        Debug.Log($"[Ply] Movable {(interactable as MonoBehaviour).name}");
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log($"[Ply] Space {(interactable as MonoBehaviour).name}");
+            playerBehavior.isDragging = true;
+            movable.ActivateMove(true);  
+        }
+
+        if (!Input.GetKey(KeyCode.Space))
+        {
+            Debug.Log($"[Ply] Not {(interactable as MonoBehaviour).name}");
             playerBehavior.isDragging = false;
-            colliding.ActivateMove(false);
+            movable.ActivateMove(false);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInParent<Interactable>() != null) colliding = other.GetComponentInParent<Interactable>();
-        
+        Debug.Log($"[Ply] TriggerEnter {other.name}");
+        interactable = other.GetComponents<Component>().OfType<IInteractable>().FirstOrDefault();
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if( colliding == other.GetComponentInParent<Interactable>())
-        {
-            colliding = null;
-            playerBehavior.isDragging = false;
-        }
+        interactable = null;
     }
 }

@@ -112,11 +112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bc57704c6e1cf47b56b7254aebdd93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
-  rb: {fileID: 0}
+  _speed: 100
+  _playerGrab: {fileID: 8046603705466750405}
   isDragging: 0
-  playerGrab: {fileID: 8046603705466750405}
-  terrain: {fileID: 0}
 --- !u!54 &6556716943258524504
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -243,5 +241,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce84f3a64e8fb5459acf7d099abbe2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBehavior: {fileID: 0}
-  colliding: {fileID: 0}
