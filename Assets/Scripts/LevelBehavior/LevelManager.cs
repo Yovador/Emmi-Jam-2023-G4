@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        //Temporary
         if(_levelList.Count != 0)
         {
             LoadLevel(_levelList[0]);
