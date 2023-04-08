@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,6 +27,10 @@ public class LevelManager : MonoBehaviour
 
     private async UniTask LoadLevelAsync(LevelData level)
     {
+        if (SceneManager.GetAllScenes().Where(x => x.name == level.SceneName).Count() != 0)
+        {
+            await SceneManager.UnloadSceneAsync(level.SceneName);
+        }
         Debug.Log($"[Lvl] Start LoadLevel {level.SceneName}");
         await SceneManager.LoadSceneAsync(level.SceneName, LoadSceneMode.Additive);
         Debug.Log($"[Lvl] Finish LoadLevel {level.SceneName}");

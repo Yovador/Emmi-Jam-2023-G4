@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public interface ILightReceiver
+public interface IInteractable
 {
-    public void ReceiveLight(){}
+    public void Interact() { }
 }

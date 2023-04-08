@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(Light))]
-public class LightBehaviour : MonoBehaviour
+public class LightBehaviour : Toggleable
 {
     [Inject]
     private List<ILightReceiver> _receivers;
@@ -19,7 +19,10 @@ public class LightBehaviour : MonoBehaviour
 
     private void Update()
     {
-        CastLight();
+        if (IsOn)
+        {
+            CastLight();
+        }
     }
 
     private void CastLight()
@@ -49,5 +52,15 @@ public class LightBehaviour : MonoBehaviour
         {
             receiver.ReceiveLight();
         }
+    }
+
+    protected override void Activate()
+    {
+        _light.enabled = true;
+    }
+
+    protected override void Deactivate()
+    {
+        _light.enabled = false;
     }
 }
