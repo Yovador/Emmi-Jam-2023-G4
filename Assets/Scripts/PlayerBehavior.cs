@@ -29,7 +29,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private Vector3 _defaultPos = Vector3.zero;
     private Quaternion _defaultRot = Quaternion.identity;
 
-    private float _cameraRotation;
+    private float _cameraRotation = -45;
 
     void Start()
     {
@@ -67,7 +67,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         if (_isRotating){ return; }
         _isRotating = true;
         _isMoving = false;
-        _cameraRotation = (_cameraRotation + 90*direction) % 360;
+        _cameraRotation = (_cameraRotation - 90*direction) % 360;
         var dolly = _virtualCam.GetCinemachineComponent<CinemachineTrackedDolly>();
         DOTween.To(() => dolly.m_PathPosition, x => dolly.m_PathPosition = x, dolly.m_PathPosition+direction, _cameraRotateSpeed);
         await UniTask.Delay((int)(_cameraRotateSpeed * 1000));
