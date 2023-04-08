@@ -30,8 +30,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     void Update()
     {
         direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        if (direction != Vector3.zero) isMoving = true;
-        else isMoving = false;
+        if (direction != Vector3.zero) _isMoving = true;
+        else _isMoving = false;
         if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("[Ply] Interact");
@@ -42,7 +42,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     void FixedUpdate()
     {
         if (!isDragging) { //normal player movement
-            if (isMoving) transform.forward = direction;
+            if (_isMoving) transform.forward = direction;
             _rb.velocity = direction * _speed * Time.fixedDeltaTime;
         }
         else //dragging player movement
