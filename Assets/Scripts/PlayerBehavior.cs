@@ -1,6 +1,9 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerBehavior : MonoBehaviour, ILightReceiver
@@ -9,12 +12,16 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     [SerializeField]
     private float _speed;
     [SerializeField]
+    private float _cameraRotateSpeed = 0.5f;
+    [SerializeField]
     private PlayerGrab _playerGrab;
     private Rigidbody _rb;
     [HideInInspector]
     public bool isDragging = false;
-    public GameObject terrain;
+    [Inject(Id = "World")]
+    private GameObject _world;
     private bool _isMoving;
+    private bool _isRotating = false;
 
     private Vector3 _defaultPos = Vector3.zero;
     private Quaternion _defaultRot = Quaternion.identity;
@@ -24,10 +31,20 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         _rb = GetComponent<Rigidbody>();
         _defaultPos = transform.position;
         _defaultRot = transform.rotation;
+        DOTween.Init();
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.A)) //turn left
+        {
+            RotateTerrain(-1).Forget();
+        }
+        if (Input.GetKeyDown(KeyCode.E)) //turn right
+        {
+            RotateTerrain(1).Forget();
+        }
+
         direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
         {
@@ -36,16 +53,19 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
             if (direction != Vector3.zero) _isMoving = true;
             else _isMoving = false;
-
-            if (Input.GetKey(KeyCode.A)) //turn left
-            {
-                terrain.transform.RotateAround(transform.position, 5f);
-            }
-            if (Input.GetKeyDown(KeyCode.E)) //turn right
-            {
-
-            }
         }
+
+
+    }
+
+    private async UniTask RotateTerrain(int direction)
+    {
+        if (_isRotating){ return; }
+        _isRotating = true;
+        Vector3 rotateTarget = _world.transform.localEulerAngles + new Vector3(0, 90 * direction, 0);
+        _world.transform.DOLocalRotate(rotateTarget, _cameraRotateSpeed);
+        await UniTask.Delay((int)(_cameraRotateSpeed * 1000));
+        _isRotating = false;
     }
 
     void FixedUpdate()

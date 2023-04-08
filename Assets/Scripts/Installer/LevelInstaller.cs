@@ -9,11 +9,14 @@ public class LevelInstaller : MonoInstaller
 {
     [SerializeField]
     private LevelData _levelData;
+    [SerializeField]
+    private GameObject _worldRoot;
     public override void InstallBindings()
     {
         Container.Bind<LevelData>().FromInstance(_levelData);
         Container.Bind<PlayerBehavior>().FromComponentInHierarchy().AsSingle().NonLazy();
         Container.Bind<List<ILightReceiver>>().FromInstance(LightReceivers());
+        Container.Bind<GameObject>().WithId("World").FromInstance(_worldRoot);
     }
 
     //Get All the LightReceivers from the scene
