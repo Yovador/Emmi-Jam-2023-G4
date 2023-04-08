@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Test/Test Alvina/Test Alvina.unity
     guid: f572e22d26cab0447a7d48948c95bdb1
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level_Tutorial_1/Level_Tutorial_1.unity
+    guid: aec6fcb984509bf4a9f72248db32dec5
   m_configObjects: {}
