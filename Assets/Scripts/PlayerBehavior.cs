@@ -29,6 +29,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private Vector3 _defaultPos = Vector3.zero;
     private Quaternion _defaultRot = Quaternion.identity;
 
+    private float _cameraOffset;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -65,6 +67,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         if (_isRotating){ return; }
         _isRotating = true;
         _isMoving = false;
+        _cameraOffset = (_cameraOffset + 90*direction) % 360;
         var dolly = _virtualCam.GetCinemachineComponent<CinemachineTrackedDolly>();
         DOTween.To(() => dolly.m_PathPosition, x => dolly.m_PathPosition = x, dolly.m_PathPosition+direction, _cameraRotateSpeed);
         await UniTask.Delay((int)(_cameraRotateSpeed * 1000));
