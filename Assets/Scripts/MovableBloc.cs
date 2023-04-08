@@ -2,39 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class MovableBloc : MonoBehaviour, IInteractable
 {
     public enum MovementDirection {
         Horizontal = 0,
         Vertical = 1
     }
 
+    [HideInInspector]
     public Rigidbody rb;
-    public Vector3 relativeToPlayer;
-    public MovementDirection movementDirection;
+    [HideInInspector]
     public bool isActive;
+    [SerializeField]
+    public MovementDirection movementDirection;
+    [SerializeField]
+    private Vector3 relativeToPlayer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
-        
-    }
-
     public void ActivateMove(bool active)
     {
+        Debug.Log($"[Mvb] ActivateMove {active}");
         if (active)
         {
             isActive = true;
             switch (movementDirection)
             {
                 case MovementDirection.Horizontal:
+                    Debug.Log($"[Mvb] Horizontal {active}");
                     rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
                     break;
                 case MovementDirection.Vertical:
+                    Debug.Log($"[Mvb] Vertical {active}");
                     rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX;
                     break;
             }
@@ -44,5 +47,6 @@ public class Interactable : MonoBehaviour
             isActive = false;
             rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
         }
+        Debug.Log($"[Mvb] Constraints {rb.constraints}");
     }
 }

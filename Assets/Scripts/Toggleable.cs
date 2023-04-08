@@ -36,7 +36,7 @@ public class Toggleable : MonoBehaviour
 
     private void Start()
     {
-        IsOn = _defaultState;
+        _isOn = _defaultState;
     }
 
     protected virtual void Activate()

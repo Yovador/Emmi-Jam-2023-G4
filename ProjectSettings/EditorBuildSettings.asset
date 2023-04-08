@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Test/Test Yoann/Test Yoann.unity
     guid: 603b09927c8512844affe448bb37d9b7
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level_Def/Level_Def.unity
+    guid: 35d82034f95ee4344aa1dd96cb9dd99d
   m_configObjects: {}
