@@ -33,7 +33,7 @@ public class PlayerGrab : MonoBehaviour
             movable.ActivateMove(true);  
         }
 
-        if (!Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             Debug.Log($"[Ply] Not {(interactable as MonoBehaviour).name}");
             playerBehavior.isDragging = false;
@@ -50,6 +50,10 @@ public class PlayerGrab : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        interactable = null;
+        if (interactable == other.GetComponents<Component>().OfType<IInteractable>().FirstOrDefault())
+        {
+            interactable = null;
+            playerBehavior.isDragging = false;
+        }
     }
 }

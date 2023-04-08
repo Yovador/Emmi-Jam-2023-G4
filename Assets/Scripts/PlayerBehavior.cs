@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -46,13 +47,13 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         }
 
         direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        if (direction != Vector3.zero) _isMoving = true;
+        else _isMoving = false;
         if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("[Ply] Interact");
             _playerGrab.interactable.Interact();
-            direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
-            if (direction != Vector3.zero) _isMoving = true;
-            else _isMoving = false;
         }
 
 
@@ -70,23 +71,21 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
 
     void FixedUpdate()
     {
-        if (direction != Vector3.zero)
-        {
-            if (!isDragging) { //normal player movement
-                transform.forward = direction;
-                _rb.velocity = direction * _speed * Time.deltaTime;
-            }
-            else //dragging player movement
-            {
-                Debug.Log("[Ply] Player Drag");
-                if (_playerGrab.interactable == null) { return; }
-                GameObject interactObj = (_playerGrab.interactable as MonoBehaviour).gameObject;
-                if (interactObj.activeInHierarchy && Input.GetKey(KeyCode.Space))
-                {
-                    DraggingBehaviour();
-                }
-            }
+        if (!isDragging) { //normal player movement
+            if (_isMoving) transform.forward = direction;
+            _rb.velocity = direction * _speed * Time.fixedDeltaTime;
         }
+        else //dragging player movement
+        {
+            Debug.Log("[Ply] Player Drag");
+            if (_playerGrab.interactable == null) { return; }
+            GameObject interactObj = (_playerGrab.interactable as MonoBehaviour).gameObject;
+            //if (interactObj.activeInHierarchy && Input.GetKey(KeyCode.Space))
+            //{
+                DraggingBehaviour();
+            //}
+        }
+        
     }
 
     void DraggingBehaviour()
@@ -98,12 +97,23 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         switch (movableBloc.movementDirection)
         {
             case MovableBloc.MovementDirection.Horizontal:
-                movableBloc.rb.velocity = new Vector3(direction.x, 0, 0) * _speed * Time.deltaTime;
-                _rb.velocity = new Vector3(direction.x, 0, 0) * _speed * Time.deltaTime;
+                if ((direction.x > .5f && direction.z > .5f) || (direction.x < -.5f && direction.z < -.5f))
+                {
+                    movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
+                    _rb.velocity = direction * _speed * Time.fixedDeltaTime;
+                }
                 break;
             case MovableBloc.MovementDirection.Vertical:
-                movableBloc.rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.deltaTime;
-                _rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.deltaTime;
+                Debug.Log($"[Player] direction in vertical { direction} " );
+                if ((direction.x > .5f && direction.z < -.5f) || (direction.x < -.5f && direction.z > .5f))
+                {
+                    movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
+                    _rb.velocity = direction * _speed * Time.fixedDeltaTime;
+                }
+                break;
+            case MovableBloc.MovementDirection.All:
+                    movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
+                    _rb.velocity = direction * _speed * Time.fixedDeltaTime;
                 break;
         }
     }
