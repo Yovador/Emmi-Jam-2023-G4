@@ -10,18 +10,12 @@ public class Interactable : MonoBehaviour
     }
 
     public Rigidbody rb;
-    public Vector3 relativeToPlayer;
     public MovementDirection movementDirection;
     public bool isActive;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-    }
-
-    void Update()
-    {
-        
+        //rb = GetComponentInChildren<Rigidbody>();
     }
 
     public void ActivateMove(bool active)
@@ -32,10 +26,10 @@ public class Interactable : MonoBehaviour
             switch (movementDirection)
             {
                 case MovementDirection.Horizontal:
-                    rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+                    rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY /*| RigidbodyConstraints.FreezePositionZ*/;
                     break;
                 case MovementDirection.Vertical:
-                    rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX;
+                    rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY /*| RigidbodyConstraints.FreezePositionX*/;
                     break;
             }
         }
