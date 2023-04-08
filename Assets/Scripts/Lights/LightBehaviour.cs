@@ -30,10 +30,8 @@ public class LightBehaviour : MonoBehaviour
             Vector3 direction = Vector3.Normalize(targetTransform.position - transform.position);
             float angle = Vector3.Angle(transform.forward, direction);
             float demiSpotAngle = _light.spotAngle / 2;
-            Debug.Log($"[Lgt] {targetTransform.name} Angle {angle} Spotangle {demiSpotAngle}");
             if(angle > demiSpotAngle) 
             {
-                Debug.Log("[Lgt] Angle out of spotlight");
                 continue; 
             }
             CastRay(target, targetTransform, direction);

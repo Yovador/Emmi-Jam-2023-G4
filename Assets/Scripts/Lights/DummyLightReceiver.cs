@@ -6,6 +6,5 @@ public class DummyLightReceiver : MonoBehaviour, ILightReceiver
 {
     public void ReceiveLight() 
     {
-        Debug.Log($"[Lgt]{name} is in the light");
     }
 }
