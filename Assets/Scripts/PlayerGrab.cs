@@ -52,8 +52,11 @@ public class PlayerGrab : MonoBehaviour
     {
         if (interactable == other.GetComponents<Component>().OfType<IInteractable>().FirstOrDefault())
         {
-            MovableBloc movable = interactable as MovableBloc;
-            movable.ActivateMove(false);
+            if(interactable.GetType() == typeof(MovableBloc))
+            {
+                MovableBloc movable = interactable as MovableBloc;
+                movable.ActivateMove(false);
+            }
             interactable = null;
             playerBehavior.isDragging = false;
         }
