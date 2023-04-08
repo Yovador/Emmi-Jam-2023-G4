@@ -46,8 +46,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             RotateTerrain(1).Forget();
         }
 
-        direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if (direction != Vector3.zero) _isMoving = true;
         else _isMoving = false;
         if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
@@ -80,10 +79,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             Debug.Log("[Ply] Player Drag");
             if (_playerGrab.interactable == null) { return; }
             GameObject interactObj = (_playerGrab.interactable as MonoBehaviour).gameObject;
-            //if (interactObj.activeInHierarchy && Input.GetKey(KeyCode.Space))
-            //{
-                DraggingBehaviour();
-            //}
+            DraggingBehaviour();
+            
         }
         
     }
@@ -104,7 +101,6 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
                 }
                 break;
             case MovableBloc.MovementDirection.Vertical:
-                Debug.Log($"[Player] direction in vertical { direction} " );
                 if ((direction.x > .5f && direction.z < -.5f) || (direction.x < -.5f && direction.z > .5f))
                 {
                     movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
