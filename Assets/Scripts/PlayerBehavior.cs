@@ -101,18 +101,12 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         switch (movableBloc.movementDirection)
         {
             case MovableBloc.MovementDirection.Horizontal:
-                if ((direction.x > .5f && direction.z > .5f) || (direction.x < -.5f && direction.z < -.5f))
-                {
-                    movableBloc.rb.velocity = direction  * _speed * Time.fixedDeltaTime;
-                    _rb.velocity = direction * _speed * Time.fixedDeltaTime;
-                }
+                    movableBloc.rb.velocity = new Vector3(direction.x, 0, 0)  * _speed * Time.fixedDeltaTime;
+                    _rb.velocity = new Vector3(direction.x, 0, 0) * _speed * Time.fixedDeltaTime;
                 break;
             case MovableBloc.MovementDirection.Vertical:
-                if ((direction.x > .5f && direction.z < -.5f) || (direction.x < -.5f && direction.z > .5f))
-                {
-                    movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
-                    _rb.velocity = direction * _speed * Time.fixedDeltaTime;
-                }
+                movableBloc.rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.fixedDeltaTime;
+                _rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.fixedDeltaTime;
                 break;
             case MovableBloc.MovementDirection.All:
                     movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
