@@ -8,10 +8,12 @@ public class PlayerBehavior : MonoBehaviour
     Vector3 direction;
     public float speed;
     public Rigidbody rb;
+    public bool isDragging = false;
+    public PlayerGrab playerGrab;
 
     void Start()
     {
-        rb = this.GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -24,8 +26,27 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (direction != Vector3.zero)
         {
-            gameObject.transform.forward = direction;
-            rb.velocity = direction * speed * Time.deltaTime;
+            if (!isDragging) { //normal player movement
+                transform.forward = direction; 
+                rb.velocity = direction * speed * Time.deltaTime;
+            }
+            else //dragging player movement
+            {
+                if (playerGrab.colliding != null && playerGrab.colliding.isActive && Input.GetKey(KeyCode.Space))
+                {
+                    switch (playerGrab.colliding.movementDirection)
+                    {
+                        case Interactable.MovementDirection.Horizontal:
+                            playerGrab.colliding.rb.velocity = new Vector3(direction.x, 0, 0) * speed * Time.deltaTime;
+                            rb.velocity = new Vector3(direction.x, 0, 0) * speed * Time.deltaTime;
+                            break;
+                        case Interactable.MovementDirection.Vertical:
+                            playerGrab.colliding.rb.velocity = new Vector3(0, 0, direction.z) * speed * Time.deltaTime;
+                            rb.velocity = new Vector3(0, 0, direction.z) * speed * Time.deltaTime;
+                            break;
+                    }
+                }
+            }
 
         }
 
