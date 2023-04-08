@@ -21,6 +21,14 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetLevel();
+        }
+    }
+
     public void LoadLevel(LevelData level)
     {
         LoadLevelAsync(level).Forget();
@@ -30,6 +38,11 @@ public class LevelManager : MonoBehaviour
     {
         UnloadLevelAsync(_levelList[_currentLvl]).Forget();
         LoadLevel(_levelList[_currentLvl+1]);
+    }
+
+    public void ResetLevel()
+    {
+        LoadLevel(_levelList[_currentLvl]);
     }
 
     private async UniTask UnloadLevelAsync(LevelData level)
@@ -47,7 +60,6 @@ public class LevelManager : MonoBehaviour
         await SceneManager.LoadSceneAsync(level.SceneName, LoadSceneMode.Additive);
         Debug.Log($"[Lvl] Finish LoadLevel {level.SceneName}");
         _currentLvl = _levelList.IndexOf(level);
-
     }
 
 }
