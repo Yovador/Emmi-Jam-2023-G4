@@ -1,64 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline;
+using System.Linq;
 using UnityEngine;
-using static Interactable;
+using Zenject;
+using static MovableBloc;
 
 public class PlayerGrab : MonoBehaviour
 {
-
-    public PlayerBehavior playerBehavior;
-    public Interactable colliding;
-
-    private void Start()
-    {
-        playerBehavior = GetComponentInParent<PlayerBehavior>();
-    }
+    [Inject]
+    private PlayerBehavior playerBehavior;
+    public IInteractable interactable;
 
     void Update()
     {
-        if (colliding == null) return;
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            //colliding.transform.SetParent(playerBehavior.transform, true);
-            playerBehavior.isDragging = true;
-            colliding.ActivateMove(true);
-            //colliding.relativeToPlayer = colliding.transform.position - playerBehavior.transform.position;
+        if(interactable != null && interactable.GetType() == typeof(MovableBloc))
+        {
+            DragBehavior();
         }
-        if (Input.GetKey(KeyCode.Space))
+    }
+
+    private void DragBehavior()
+    {
+        if (interactable == null) return;
+        MovableBloc movable = interactable as MovableBloc;
+        Debug.Log($"[Ply] Drag {(interactable as MonoBehaviour).name}");
+        if (movable == null) { return; }
+        Debug.Log($"[Ply] Movable {(interactable as MonoBehaviour).name}");
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            //switch(colliding.movementDirection)
-            //{
-            //    case MovementDirection.Horizontal:
-            //        colliding.transform.position = new Vector3(playerBehavior.transform.position.x + colliding.relativeToPlayer.x, colliding.transform.position.y, colliding.transform.position.z);
+            Debug.Log($"[Ply] Space {(interactable as MonoBehaviour).name}");
+            playerBehavior.isDragging = true;
+            movable.ActivateMove(true);  
+        }
 
-            //        break;
-            //    case MovementDirection.Vertical:
-            //        colliding.transform.position = new Vector3(colliding.transform.position.x, colliding.transform.position.y, playerBehavior.transform.position.z + colliding.relativeToPlayer.z);
-
-            //        //colliding.transform.position = playerBehavior.transform.position + colliding.relativeToPlayer;
-
-            //        break;
-            //}
-            //colliding.transform.rotation = Quaternion.identity;
-        } else
+        if (!Input.GetKey(KeyCode.Space))
         {
-            //colliding.transform.SetParent(null);
+            Debug.Log($"[Ply] Not {(interactable as MonoBehaviour).name}");
             playerBehavior.isDragging = false;
-            colliding.ActivateMove(false);
+            movable.ActivateMove(false);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Interactable>() != null)
-        {
-            colliding = other.GetComponent<Interactable>();
-        }
+        Debug.Log($"[Ply] TriggerEnter {other.name}");
+        interactable = other.GetComponents<Component>().OfType<IInteractable>().FirstOrDefault();
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("quit zone");
-        if( colliding == other.GetComponent<Interactable>()) colliding = null;
+        interactable = null;
     }
 }

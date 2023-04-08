@@ -50,6 +50,7 @@ public class LightBehaviour : Toggleable
         ILightReceiver receiver = collider.GetComponents<Component>().OfType<ILightReceiver>().FirstOrDefault();
         if (receiver == target)
         {
+            Debug.Log("[Lgt] Light");
             receiver.ReceiveLight();
         }
     }
