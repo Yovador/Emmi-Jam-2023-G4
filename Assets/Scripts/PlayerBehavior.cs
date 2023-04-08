@@ -29,7 +29,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private Vector3 _defaultPos = Vector3.zero;
     private Quaternion _defaultRot = Quaternion.identity;
 
-    private float _cameraRotation;
+    private float _cameraRotation = -45;
 
     void Start()
     {
@@ -42,7 +42,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     void Update()
     {
 
-        direction = Quaternion.AngleAxis(45, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        direction = Quaternion.AngleAxis(_cameraRotation, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if (direction != Vector3.zero) _isMoving = true;
         else _isMoving = false;
         if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
@@ -67,7 +67,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         if (_isRotating){ return; }
         _isRotating = true;
         _isMoving = false;
-        _cameraRotation = (_cameraRotation + 90*direction) % 360;
+        _cameraRotation = (_cameraRotation - 90*direction) % 360;
         var dolly = _virtualCam.GetCinemachineComponent<CinemachineTrackedDolly>();
         DOTween.To(() => dolly.m_PathPosition, x => dolly.m_PathPosition = x, dolly.m_PathPosition+direction, _cameraRotateSpeed);
         await UniTask.Delay((int)(_cameraRotateSpeed * 1000));
@@ -101,18 +101,12 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         switch (movableBloc.movementDirection)
         {
             case MovableBloc.MovementDirection.Horizontal:
-                if ((direction.x > .5f && direction.z > .5f) || (direction.x < -.5f && direction.z < -.5f))
-                {
-                    movableBloc.rb.velocity = direction  * _speed * Time.fixedDeltaTime;
-                    _rb.velocity = direction * _speed * Time.fixedDeltaTime;
-                }
+                    movableBloc.rb.velocity = new Vector3(direction.x, 0, 0)  * _speed * Time.fixedDeltaTime;
+                    _rb.velocity = new Vector3(direction.x, 0, 0) * _speed * Time.fixedDeltaTime;
                 break;
             case MovableBloc.MovementDirection.Vertical:
-                if ((direction.x > .5f && direction.z < -.5f) || (direction.x < -.5f && direction.z > .5f))
-                {
-                    movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
-                    _rb.velocity = direction * _speed * Time.fixedDeltaTime;
-                }
+                movableBloc.rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.fixedDeltaTime;
+                _rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.fixedDeltaTime;
                 break;
             case MovableBloc.MovementDirection.All:
                     movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
