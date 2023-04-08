@@ -7,7 +7,8 @@ public class MovableBloc : MonoBehaviour, IInteractable
 {
     public enum MovementDirection {
         Horizontal = 0,
-        Vertical = 1
+        Vertical = 1,
+        All = 2
     }
 
     [HideInInspector]
@@ -16,8 +17,6 @@ public class MovableBloc : MonoBehaviour, IInteractable
     public bool isActive;
     [SerializeField]
     public MovementDirection movementDirection;
-    [SerializeField]
-    private Vector3 relativeToPlayer;
 
     void Start()
     {
@@ -34,11 +33,15 @@ public class MovableBloc : MonoBehaviour, IInteractable
             {
                 case MovementDirection.Horizontal:
                     Debug.Log($"[Mvb] Horizontal {active}");
-                    rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+                    rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY/* | RigidbodyConstraints.FreezePositionZ*/;
                     break;
                 case MovementDirection.Vertical:
                     Debug.Log($"[Mvb] Vertical {active}");
-                    rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX;
+                    rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY /*| RigidbodyConstraints.FreezePositionX*/;
+                    break;
+                case MovementDirection.All:
+                    Debug.Log($"[Mvb] Vertical {active}");
+                    rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY /*| RigidbodyConstraints.FreezePositionX*/;
                     break;
             }
         }
