@@ -1,9 +1,11 @@
 using Cinemachine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
 //using System.Numerics;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
@@ -25,6 +27,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     public bool isDragging = false;
     private bool _isMoving;
     private bool _isRotating = false;
+    public Action OnDestroy;
 
     private Vector3 _defaultPos = Vector3.zero;
     private Quaternion _defaultRot = Quaternion.identity;
@@ -124,6 +127,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     {
         Debug.Log($"Player is in the light");
         await UniTask.WaitWhile(() => _isRotating);
+        OnDestroy.Invoke();
         if(_rb == null) { return; }
         _rb.velocity = Vector3.zero;
         transform.position = _defaultPos;
