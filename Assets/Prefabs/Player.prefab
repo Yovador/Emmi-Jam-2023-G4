@@ -113,9 +113,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 100
+  _cameraRotateSpeed: 0.5
   _playerGrab: {fileID: 8046603705466750405}
   isDragging: 0
-  terrain: {fileID: 0}
 --- !u!54 &6556716943258524504
 Rigidbody:
   m_ObjectHideFlags: 0
