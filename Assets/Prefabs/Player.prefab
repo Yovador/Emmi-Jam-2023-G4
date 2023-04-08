@@ -112,12 +112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bc57704c6e1cf47b56b7254aebdd93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 200
+  _speed: 100
   _playerGrab: {fileID: 8046603705466750405}
   isDragging: 0
-  playerGrab: {fileID: 0}
   terrain: {fileID: 0}
-  isMoving: 0
 --- !u!54 &6556716943258524504
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -132,7 +130,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &6556716943746626230
 GameObject:
@@ -147,7 +145,7 @@ GameObject:
   - component: {fileID: 6556716943746626229}
   - component: {fileID: 6556716943746626228}
   - component: {fileID: 8046603705466750405}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

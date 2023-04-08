@@ -14,13 +14,17 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private Rigidbody _rb;
     [HideInInspector]
     public bool isDragging = false;
-    public PlayerGrab playerGrab;
     public GameObject terrain;
-    public bool isMoving;
+    private bool _isMoving;
+
+    private Vector3 _defaultPos = Vector3.zero;
+    private Quaternion _defaultRot = Quaternion.identity;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _defaultPos = transform.position;
+        _defaultRot = transform.rotation;
     }
 
     void Update()
@@ -87,5 +91,9 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     public void ReceiveLight()
     {
         Debug.Log($"Player is in the light");
+        _rb.velocity = Vector3.zero;
+        transform.position = _defaultPos;
+        transform.rotation = _defaultRot;
+        isDragging = false;
     }
 }

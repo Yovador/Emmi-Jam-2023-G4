@@ -9,6 +9,8 @@ public class LightBehaviour : Toggleable
 {
     [Inject]
     private List<ILightReceiver> _receivers;
+    [SerializeField]
+    private LayerMask _mask;
     private Light _light;
 
     [Inject]
@@ -45,7 +47,7 @@ public class LightBehaviour : Toggleable
     {
         Ray ray = new Ray(transform.position, direction);
         RaycastHit raycastHit;
-        Physics.Raycast(ray, out raycastHit, Mathf.Infinity);
+        Physics.Raycast(ray, out raycastHit, Mathf.Infinity, _mask);
         Collider collider = raycastHit.collider;
         ILightReceiver receiver = collider.GetComponents<Component>().OfType<ILightReceiver>().FirstOrDefault();
         if (receiver == target)
