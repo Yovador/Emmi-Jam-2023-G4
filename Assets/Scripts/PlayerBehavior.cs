@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+//using System.Numerics;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -45,8 +46,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         {
             RotateTerrain(1).Forget();
         }
-
-        direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        Debug.Log("vector " + Camera.main.transform.rotation.y);
+        direction = Quaternion.AngleAxis(45, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if (direction != Vector3.zero) _isMoving = true;
         else _isMoving = false;
         if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
@@ -96,7 +97,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             case MovableBloc.MovementDirection.Horizontal:
                 if ((direction.x > .5f && direction.z > .5f) || (direction.x < -.5f && direction.z < -.5f))
                 {
-                    movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
+                    movableBloc.rb.velocity = direction  * _speed * Time.fixedDeltaTime;
                     _rb.velocity = direction * _speed * Time.fixedDeltaTime;
                 }
                 break;
