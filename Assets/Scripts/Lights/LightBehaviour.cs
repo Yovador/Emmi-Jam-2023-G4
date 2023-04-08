@@ -39,16 +39,17 @@ public class LightBehaviour : Toggleable
             {
                 continue; 
             }
-            CastRay(target, targetTransform, direction);
+            CastRay(target, direction);
         }
     }
 
-    private void CastRay(ILightReceiver target, Transform targetTransform, Vector3 direction)
+    private void CastRay(ILightReceiver target, Vector3 direction)
     {
         Ray ray = new Ray(transform.position, direction);
         RaycastHit raycastHit;
         Physics.Raycast(ray, out raycastHit, Mathf.Infinity, _mask);
         Collider collider = raycastHit.collider;
+        if(collider == null) { return; }
         ILightReceiver receiver = collider.GetComponents<Component>().OfType<ILightReceiver>().FirstOrDefault();
         if (receiver == target)
         {

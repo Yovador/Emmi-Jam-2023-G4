@@ -21,7 +21,8 @@ public class Toggleable : MonoBehaviour
         get { return _isOn; }
         set
         {
-            if (_isOn) { _onActivate.Invoke(); }
+            Debug.Log($"[Tgl] {name} IsOn from {_isOn} to {value}");
+            if (value) { _onActivate.Invoke(); }
             else { _onDeactivate.Invoke(); }
             _isOn = value;
         }
@@ -36,7 +37,7 @@ public class Toggleable : MonoBehaviour
 
     private void Start()
     {
-        _isOn = _defaultState;
+        IsOn = _defaultState;
     }
 
     protected virtual void Activate()
@@ -51,6 +52,23 @@ public class Toggleable : MonoBehaviour
 
     public void Switch()
     {
-        IsOn = !IsOn;
+        if (IsOn)
+        {
+            SetOff();
+        }
+        else
+        {
+            SetOn();
+        }
+    }
+
+    public void SetOn()
+    {
+        IsOn = true;
+    }
+
+    public void SetOff()
+    {
+        IsOn = false;
     }
 }
