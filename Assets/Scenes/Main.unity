@@ -14,31 +14,31 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
-  m_FogColor: {r: 0.3339622, g: 0.8466676, b: 1, a: 1}
+  m_Fog: 0
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.015
+  m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.3513706, g: 0.4543729, b: 0.6603774, a: 1}
-  m_AmbientEquatorColor: {r: 0.23921569, g: 0.356079, b: 0.36862746, a: 1}
-  m_AmbientGroundColor: {r: 0.25247416, g: 0.5863566, b: 0.6792453, a: 1}
+  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
+  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 1
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
-  m_HaloStrength: 0.27
-  m_FlareStrength: 0.883
+  m_HaloStrength: 0.5
+  m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 0.782
+  m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.09956228, g: 0.1049034, b: 0.09468354, a: 0.782}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -200,8 +200,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelList:
-  - {fileID: 11400000, guid: 1a8cfedbb44eb6746b5339b39f24da55, type: 2}
+  - {fileID: 11400000, guid: 6a45e81383e90864a8bbe08d48d961f0, type: 2}
+  - {fileID: 11400000, guid: 0769b2741c9e69c48b387eabb8b8dd66, type: 2}
   - {fileID: 11400000, guid: 43ea7c2bfceec3143b79293816ebf4f6, type: 2}
+  - {fileID: 11400000, guid: 43ea7c2bfceec3143b79293816ebf4f6, type: 2}
+  - {fileID: 11400000, guid: 6e80286e6b0a9d44e9faf1a177a0a57c, type: 2}
 --- !u!1 &1214121327
 GameObject:
   m_ObjectHideFlags: 0
