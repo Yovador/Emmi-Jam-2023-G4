@@ -42,7 +42,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     void Update()
     {
 
-        direction = Quaternion.AngleAxis(45, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        direction = Quaternion.AngleAxis(_cameraRotation, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if (direction != Vector3.zero) _isMoving = true;
         else _isMoving = false;
         if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
