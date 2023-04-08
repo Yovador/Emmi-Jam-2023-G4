@@ -12,10 +12,9 @@ public class LevelManager : MonoBehaviour
     private List<LevelData> _levelList = new List<LevelData>();
     private int _currentLvl = 0;
 
-    private void Start()
+    public void StartLevel()
     {
-        //Temporary
-        if(_levelList.Count != 0)
+        if (_levelList.Count != 0)
         {
             LoadLevel(_levelList[0]);
         }
