@@ -27,7 +27,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     public bool isDragging = false;
     private bool _isMoving;
     private bool _isRotating = false;
-    public Action OnDestroy;
+    public Action OnDestroy = new Action(() => { });
 
     private Vector3 _defaultPos = Vector3.zero;
     private Quaternion _defaultRot = Quaternion.identity;

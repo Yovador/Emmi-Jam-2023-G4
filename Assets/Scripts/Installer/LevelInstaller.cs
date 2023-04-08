@@ -10,12 +10,14 @@ public class LevelInstaller : MonoInstaller
 {
     [SerializeField]
     private LevelData _levelData;
+    [SerializeField]
+    private CinemachineVirtualCamera _cinemachineVirtualCamera;
 
     public override void InstallBindings()
     {
         Container.Bind<LevelData>().FromInstance(_levelData);
         Container.Bind<PlayerBehavior>().FromComponentInHierarchy().AsSingle().NonLazy();
-        Container.Bind<CinemachineVirtualCamera>().FromComponentInHierarchy().AsSingle().NonLazy();
+        Container.Bind<CinemachineVirtualCamera>().FromInstance(_cinemachineVirtualCamera).AsSingle().NonLazy();
         Container.Bind<List<ILightReceiver>>().FromInstance(LightReceivers());
     }
 
