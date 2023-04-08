@@ -200,8 +200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelList:
-  - {fileID: 11400000, guid: 0769b2741c9e69c48b387eabb8b8dd66, type: 2}
   - {fileID: 11400000, guid: 6a45e81383e90864a8bbe08d48d961f0, type: 2}
+  - {fileID: 11400000, guid: 0769b2741c9e69c48b387eabb8b8dd66, type: 2}
   - {fileID: 11400000, guid: 43ea7c2bfceec3143b79293816ebf4f6, type: 2}
   - {fileID: 11400000, guid: 43ea7c2bfceec3143b79293816ebf4f6, type: 2}
   - {fileID: 11400000, guid: 6e80286e6b0a9d44e9faf1a177a0a57c, type: 2}
