@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBehavior : MonoBehaviour
+public class PlayerBehavior : MonoBehaviour, ILightReceiver
 {
 
     Vector3 direction;
@@ -50,5 +50,10 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
+    }
+
+    public void ReceiveLight()
+    {
+        Debug.Log($"Player is in the light");
     }
 }
