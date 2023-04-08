@@ -13,13 +13,17 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private Rigidbody _rb;
     [HideInInspector]
     public bool isDragging = false;
-    public PlayerGrab playerGrab;
     public GameObject terrain;
-    public bool isMoving;
+    private bool _isMoving;
+
+    private Vector3 _defaultPos = Vector3.zero;
+    private Quaternion _defaultRot = Quaternion.identity;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _defaultPos = transform.position;
+        _defaultRot = transform.rotation;
     }
 
     void Update()
@@ -30,8 +34,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             Debug.Log("[Ply] Interact");
             _playerGrab.interactable.Interact();
             direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
-            if (direction != Vector3.zero) isMoving = true;
-            else isMoving = false;
+            if (direction != Vector3.zero) _isMoving = true;
+            else _isMoving = false;
 
             if (Input.GetKey(KeyCode.A)) //turn left
             {
@@ -87,5 +91,9 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     public void ReceiveLight()
     {
         Debug.Log($"Player is in the light");
+        _rb.velocity = Vector3.zero;
+        transform.position = _defaultPos;
+        transform.rotation = _defaultRot;
+        isDragging = false;
     }
 }

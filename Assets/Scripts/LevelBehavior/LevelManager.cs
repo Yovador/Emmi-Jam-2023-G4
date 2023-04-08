@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField]
     private List<LevelData> _levelList = new List<LevelData>();
+    private int _currentLvl = 0;
 
     private void Start()
     {
@@ -24,16 +25,28 @@ public class LevelManager : MonoBehaviour
     {
         LoadLevelAsync(level).Forget();
     }
+    
+    public void NextLevel()
+    {
+        UnloadLevelAsync(_levelList[_currentLvl]).Forget();
+        LoadLevel(_levelList[_currentLvl+1]);
+    }
 
-    private async UniTask LoadLevelAsync(LevelData level)
+    private async UniTask UnloadLevelAsync(LevelData level)
     {
         if (SceneManager.GetAllScenes().Where(x => x.name == level.SceneName).Count() != 0)
         {
             await SceneManager.UnloadSceneAsync(level.SceneName);
         }
+    }
+
+    private async UniTask LoadLevelAsync(LevelData level)
+    {
+        await UnloadLevelAsync(level);
         Debug.Log($"[Lvl] Start LoadLevel {level.SceneName}");
         await SceneManager.LoadSceneAsync(level.SceneName, LoadSceneMode.Additive);
         Debug.Log($"[Lvl] Finish LoadLevel {level.SceneName}");
+        _currentLvl = _levelList.IndexOf(level);
 
     }
 

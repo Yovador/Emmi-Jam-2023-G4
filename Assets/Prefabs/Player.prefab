@@ -115,6 +115,7 @@ MonoBehaviour:
   _speed: 100
   _playerGrab: {fileID: 8046603705466750405}
   isDragging: 0
+  terrain: {fileID: 0}
 --- !u!54 &6556716943258524504
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -144,7 +145,7 @@ GameObject:
   - component: {fileID: 6556716943746626229}
   - component: {fileID: 6556716943746626228}
   - component: {fileID: 8046603705466750405}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
