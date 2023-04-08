@@ -1,3 +1,4 @@
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections;
@@ -12,6 +13,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     Vector3 direction;
     [SerializeField]
     private float _speed;
+    [Inject]
+    private CinemachineVirtualCamera _virtualCam;
     [SerializeField]
     private float _cameraRotateSpeed = 0.5f;
     [SerializeField]
@@ -19,8 +22,6 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private Rigidbody _rb;
     [HideInInspector]
     public bool isDragging = false;
-    [Inject(Id = "World")]
-    private GameObject _world;
     private bool _isMoving;
     private bool _isRotating = false;
 
@@ -37,14 +38,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)) //turn left
-        {
-            RotateTerrain(-1).Forget();
-        }
-        if (Input.GetKeyDown(KeyCode.E)) //turn right
-        {
-            RotateTerrain(1).Forget();
-        }
+
 
         direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if (direction != Vector3.zero) _isMoving = true;
@@ -55,6 +49,14 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             _playerGrab.interactable.Interact();
         }
 
+        if (Input.GetKeyDown(KeyCode.A)) //turn left
+        {
+            RotateTerrain(-1).Forget();
+        }
+        if (Input.GetKeyDown(KeyCode.E)) //turn right
+        {
+            RotateTerrain(1).Forget();
+        }
 
     }
 
@@ -62,14 +64,16 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     {
         if (_isRotating){ return; }
         _isRotating = true;
-        Vector3 rotateTarget = _world.transform.localEulerAngles + new Vector3(0, 90 * direction, 0);
-        _world.transform.DOLocalRotate(rotateTarget, _cameraRotateSpeed);
+        _isMoving = false;
+        var dolly = _virtualCam.GetCinemachineComponent<CinemachineTrackedDolly>();
+        DOTween.To(() => dolly.m_PathPosition, x => dolly.m_PathPosition = x, dolly.m_PathPosition+direction, _cameraRotateSpeed);
         await UniTask.Delay((int)(_cameraRotateSpeed * 1000));
         _isRotating = false;
     }
 
     void FixedUpdate()
     {
+        if (_isRotating) { return; }
         if (!isDragging) { //normal player movement
             if (_isMoving) transform.forward = direction;
             _rb.velocity = direction * _speed * Time.fixedDeltaTime;
@@ -116,7 +120,13 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
 
     public void ReceiveLight()
     {
+        Death().Forget();
+    }
+
+    private async UniTask Death()
+    {
         Debug.Log($"Player is in the light");
+        await UniTask.WaitWhile(() => _isRotating);
         _rb.velocity = Vector3.zero;
         transform.position = _defaultPos;
         transform.rotation = _defaultRot;
