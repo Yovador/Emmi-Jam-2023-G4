@@ -17,18 +17,23 @@ public class MovableBloc : MonoBehaviour, IInteractable
     public bool isActive;
     [SerializeField]
     public MovementDirection movementDirection;
+    private AudioSource _audioSource;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void ActivateMove(bool active)
     {
+       
         Debug.Log($"[Mvb] ActivateMove {active}");
         if (active)
         {
             isActive = true;
+            _audioSource.Play();
+            _audioSource.loop = true;
             switch (movementDirection)
             {
                 case MovementDirection.Horizontal:
@@ -47,6 +52,8 @@ public class MovableBloc : MonoBehaviour, IInteractable
         }
         else
         {
+            _audioSource.Stop();
+            _audioSource.loop = false;
             isActive = false;
             rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
         }
