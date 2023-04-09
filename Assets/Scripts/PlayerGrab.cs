@@ -44,6 +44,7 @@ public class PlayerGrab : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"[Ply] TriggerEnter {other.name}");
+        if (interactable != null && Input.GetKey(KeyCode.Space)) return;
         interactable = other.GetComponents<Component>().OfType<IInteractable>().FirstOrDefault();
 
     }
