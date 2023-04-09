@@ -171,16 +171,18 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         if (direction != Vector3.zero) //walking
         {
             animator.SetBool("isWalking", true);
-            if (isDragging)
-            {
-                animator.SetBool("isDragging", true);
-            } else
-            {
-                animator.SetBool("isDragging", false);
-            }
+
         } else //idle
         {
             animator.SetBool("isWalking", false);
+        }
+        if (isDragging)
+        {
+            animator.SetBool("isDragging", true);
+        }
+        else
+        {
+            animator.SetBool("isDragging", false);
         }
     }
 }
