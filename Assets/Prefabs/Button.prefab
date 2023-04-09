@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7831645708861119646}
   - component: {fileID: 7831645708861119712}
   - component: {fileID: 7831645708861119713}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,6 +232,16 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6733177361254619370, guid: a5f26a586011c474190753e1d31842d6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: a5f26a586011c474190753e1d31842d6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: -1439730007547781893, guid: a5f26a586011c474190753e1d31842d6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -242,8 +252,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Thingy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a5f26a586011c474190753e1d31842d6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513859187771203891, guid: a5f26a586011c474190753e1d31842d6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5f26a586011c474190753e1d31842d6, type: 3}
+--- !u!1 &5030527329947795506 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a5f26a586011c474190753e1d31842d6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5265108348803743075}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &554561582922547636
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5030527329947795506}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 12.25
+  m_Center: {x: 0, y: -3.32, z: 0}
 --- !u!4 &5664355533451074184 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a5f26a586011c474190753e1d31842d6,

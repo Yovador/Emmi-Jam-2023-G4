@@ -4,12 +4,14 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Zenject;
 
 public class LevelManager : MonoBehaviour
 {
     [SerializeField]
     private List<LevelData> _levelList = new List<LevelData>();
+    [Inject(Id = "Transition")]
+    private Animator _transitionAnimator;
     private int _currentLvl = 0;
 
     public void StartLevel()
@@ -31,8 +33,9 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(LevelData level)
     {
         LoadLevelAsync(level).Forget();
+
     }
-    
+
     public void NextLevel()
     {
         UnloadLevelAsync(_levelList[_currentLvl]).Forget();
@@ -54,6 +57,8 @@ public class LevelManager : MonoBehaviour
 
     private async UniTask LoadLevelAsync(LevelData level)
     {
+        _transitionAnimator.SetTrigger("Next");
+        await UniTask.Delay(700);
         await UnloadLevelAsync(level);
         Debug.Log($"[Lvl] Start LoadLevel {level.SceneName}");
         await SceneManager.LoadSceneAsync(level.SceneName, LoadSceneMode.Additive);

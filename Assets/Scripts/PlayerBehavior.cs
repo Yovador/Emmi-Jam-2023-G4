@@ -28,6 +28,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private bool _isMoving;
     private bool _isRotating = false;
     public Action OnDestroy = new Action(() => { });
+    [Inject(Id = "Transition")]
+    private Animator _transitionAnimator;
 
     private Vector3 _defaultPos = Vector3.zero;
     private Quaternion _defaultRot = Quaternion.identity;
@@ -127,7 +129,10 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     {
         Debug.Log($"Player is in the light");
         await UniTask.WaitWhile(() => _isRotating);
+        _transitionAnimator.SetTrigger("Death");
         OnDestroy.Invoke();
+        await UniTask.Delay(500);
+        _transitionAnimator.ResetTrigger("Death");
         if(_rb == null) { return; }
         _rb.velocity = Vector3.zero;
         transform.position = _defaultPos;
