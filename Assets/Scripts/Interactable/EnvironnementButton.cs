@@ -5,7 +5,14 @@ using UnityEngine;
 
 public class EnvironnementButton : Toggleable, IInteractable
 {
+    public enum ButtonType
+    {
+        Button = 0,
+        Lever = 1
+    }
+
     private Animator _animator;
+    public ButtonType buttonType;
 
     private void Start()
     {
