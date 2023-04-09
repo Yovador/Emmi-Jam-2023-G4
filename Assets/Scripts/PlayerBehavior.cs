@@ -16,6 +16,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     Vector3 direction;
     [SerializeField]
     private float _speed;
+    [SerializeField]
+    private float _draggingSpeedDivider;
     [Inject]
     private CinemachineVirtualCamera _virtualCam;
     [SerializeField]
@@ -35,6 +37,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private Quaternion _defaultRot = Quaternion.identity;
 
     private float _cameraRotation = -45;
+    public Animator animator;
+    public float CameraRotation => _cameraRotation;
 
     void Start()
     {
@@ -50,10 +54,30 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         direction = Quaternion.AngleAxis(_cameraRotation, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if (direction != Vector3.zero) _isMoving = true;
         else _isMoving = false;
+
+        AnimatePlayer();
         if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("[Ply] Interact");
             _playerGrab.interactable.Interact();
+            switch(_playerGrab.interactable)
+            {
+                case MovableBloc movableBlock:
+                    Debug.Log("interaction with movable block");
+                    break;
+                case EnvironnementButton button:
+                    Debug.Log("BUTTON");
+                    switch(button.buttonType)
+                    {
+                        case EnvironnementButton.ButtonType.Button:
+                            animator.SetTrigger("Button");
+                            break;
+                        case EnvironnementButton.ButtonType.Lever:
+                            animator.SetTrigger("Lever");
+                            break;
+                    }
+                    break;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.A)) //turn left
@@ -106,16 +130,16 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         switch (movableBloc.movementDirection)
         {
             case MovableBloc.MovementDirection.Horizontal:
-                    movableBloc.rb.velocity = new Vector3(direction.x, 0, 0)  * _speed * Time.fixedDeltaTime;
-                    _rb.velocity = new Vector3(direction.x, 0, 0) * _speed * Time.fixedDeltaTime;
+                _rb.velocity = new Vector3(direction.x, 0, 0).normalized / _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
+                movableBloc.rb.velocity = new Vector3(direction.x, 0, 0).normalized/_draggingSpeedDivider  * _speed * Time.fixedDeltaTime;
                 break;
             case MovableBloc.MovementDirection.Vertical:
-                movableBloc.rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.fixedDeltaTime;
-                _rb.velocity = new Vector3(0, 0, direction.z) * _speed * Time.fixedDeltaTime;
+                _rb.velocity = new Vector3(0, 0, direction.z).normalized/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
+                movableBloc.rb.velocity = new Vector3(0, 0, direction.z).normalized/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
                 break;
             case MovableBloc.MovementDirection.All:
-                    movableBloc.rb.velocity = direction * _speed * Time.fixedDeltaTime;
-                    _rb.velocity = direction * _speed * Time.fixedDeltaTime;
+                    _rb.velocity = direction/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
+                    movableBloc.rb.velocity = direction/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
                 break;
         }
     }
@@ -138,5 +162,27 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         transform.position = _defaultPos;
         transform.rotation = _defaultRot;
         isDragging = false;
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isDragging", false);
+    }
+
+    public void AnimatePlayer()
+    {
+        if (direction != Vector3.zero) //walking
+        {
+            animator.SetBool("isWalking", true);
+
+        } else //idle
+        {
+            animator.SetBool("isWalking", false);
+        }
+        if (isDragging)
+        {
+            animator.SetBool("isDragging", true);
+        }
+        else
+        {
+            animator.SetBool("isDragging", false);
+        }
     }
 }

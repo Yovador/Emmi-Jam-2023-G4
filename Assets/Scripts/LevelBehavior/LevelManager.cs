@@ -66,4 +66,18 @@ public class LevelManager : MonoBehaviour
         _currentLvl = _levelList.IndexOf(level);
     }
 
+    public void OpenMenu()
+    {
+        OpenMenuAsync();
+    }
+
+    private async UniTask OpenMenuAsync()
+    {
+        await UnloadLevelAsync(_levelList[_currentLvl]);
+        _currentLvl = 0;
+        _transitionAnimator.SetTrigger("Next");
+        await UniTask.Delay(750);
+        await SceneManager.LoadSceneAsync("Menu", LoadSceneMode.Additive);
+    }
+
 }
