@@ -56,7 +56,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         else _isMoving = false;
 
         AnimatePlayer();
-        if (_playerGrab.interactable != null && Input.GetKeyDown(KeyCode.Space))
+        if (_playerGrab.interactable != null && Input.GetButtonDown("Submit"))
         {
             Debug.Log("[Ply] Interact");
             _playerGrab.interactable.Interact();
@@ -80,11 +80,11 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.A)) //turn left
+        if (Input.GetButtonDown("CameraLeft")) //turn left
         {
             RotateTerrain(-1).Forget();
         }
-        if (Input.GetKeyDown(KeyCode.E)) //turn right
+        if (Input.GetButtonDown("CameraRight")) //turn right
         {
             RotateTerrain(1).Forget();
         }
@@ -138,8 +138,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
                 movableBloc.rb.velocity = new Vector3(0, 0, direction.z).normalized/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
                 break;
             case MovableBloc.MovementDirection.All:
-                    _rb.velocity = direction/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
                     movableBloc.rb.velocity = direction/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
+                    _rb.velocity = direction/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
                 break;
         }
     }
