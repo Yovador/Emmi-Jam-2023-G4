@@ -976,14 +976,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelList:
-  - {fileID: 11400000, guid: 48cfc9a460eef6f48b6918e3a8cbba94, type: 2}
-  - {fileID: 11400000, guid: 6a45e81383e90864a8bbe08d48d961f0, type: 2}
-  - {fileID: 11400000, guid: 43ea7c2bfceec3143b79293816ebf4f6, type: 2}
-  - {fileID: 11400000, guid: 19f573f369c64814ca3de1496f3ad37b, type: 2}
-  - {fileID: 11400000, guid: 1a8cfedbb44eb6746b5339b39f24da55, type: 2}
   - {fileID: 11400000, guid: 0769b2741c9e69c48b387eabb8b8dd66, type: 2}
   - {fileID: 11400000, guid: 6a45e81383e90864a8bbe08d48d961f0, type: 2}
-  - {fileID: 11400000, guid: 6e80286e6b0a9d44e9faf1a177a0a57c, type: 2}
+  - {fileID: 11400000, guid: 19f573f369c64814ca3de1496f3ad37b, type: 2}
+  - {fileID: 11400000, guid: 48cfc9a460eef6f48b6918e3a8cbba94, type: 2}
 --- !u!1 &1214121327
 GameObject:
   m_ObjectHideFlags: 0
