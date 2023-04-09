@@ -5,6 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Door : Toggleable
 {
+    [SerializeField]
+    private AudioSource _open;
+    [SerializeField]
+    private AudioSource _close;
     private Animator _animator;
 
     private void Start()
@@ -16,10 +20,12 @@ public class Door : Toggleable
     {
         base.Activate();
         _animator.SetTrigger("Open");
+        _open.Play();
     }
     protected override void Deactivate()
     {
         base.Deactivate();
         _animator.SetTrigger("Close");
+        _close.Play();
     }
 }
