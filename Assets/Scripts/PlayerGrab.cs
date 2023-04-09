@@ -26,14 +26,14 @@ public class PlayerGrab : MonoBehaviour
         Debug.Log($"[Ply] Drag {(interactable as MonoBehaviour).name}");
         if (movable == null) { return; }
         Debug.Log($"[Ply] Movable {(interactable as MonoBehaviour).name}");
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Submit"))
         {
             Debug.Log($"[Ply] Space {(interactable as MonoBehaviour).name}");
             playerBehavior.isDragging = true;
             movable.ActivateMove(true);  
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetButtonUp("Submit"))
         {
             Debug.Log($"[Ply] Not {(interactable as MonoBehaviour).name}");
             playerBehavior.isDragging = false;
