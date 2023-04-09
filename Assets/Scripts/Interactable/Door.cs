@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class EnvironnementButton : Toggleable, IInteractable
+[RequireComponent(typeof(Animator))]
+public class Door : Toggleable
 {
     private Animator _animator;
 
@@ -11,21 +11,14 @@ public class EnvironnementButton : Toggleable, IInteractable
     {
         _animator = GetComponent<Animator>();
     }
-    public void Interact()
-    {
-        Switch();
-    }
 
     protected override void Activate()
     {
-        if(_animator == null) { return; }
         base.Activate();
         _animator.SetTrigger("Open");
     }
-
     protected override void Deactivate()
     {
-        if (_animator == null) { return; }
         base.Deactivate();
         _animator.SetTrigger("Close");
     }
