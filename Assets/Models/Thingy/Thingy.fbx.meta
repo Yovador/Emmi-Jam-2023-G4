@@ -8,7 +8,22 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Blob
-    second: {fileID: 2100000, guid: 2909420a895962b4a894901654db2ce1, type: 2}
+    second: {fileID: 2100000, guid: 6781e622ebd1f0e48b49b41b55686ae7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Frame
+    second: {fileID: 2100000, guid: a206413b8201cd7499ce8a95bd5bac41, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: e2772604698987942b570f4231455048, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Leaves
+    second: {fileID: 2100000, guid: 72fceb5d82944f7449a073ed5bd83178, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
