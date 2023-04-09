@@ -35,6 +35,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private Quaternion _defaultRot = Quaternion.identity;
 
     private float _cameraRotation = -45;
+    public float CameraRotation => _cameraRotation;
 
     void Start()
     {
