@@ -50,6 +50,7 @@ public class PlayerGrab : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if(interactable == null) { return; }
         if (interactable == other.GetComponents<Component>().OfType<IInteractable>().FirstOrDefault())
         {
             if(interactable.GetType() == typeof(MovableBloc))
