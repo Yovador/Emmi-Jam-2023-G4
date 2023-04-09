@@ -130,16 +130,16 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         switch (movableBloc.movementDirection)
         {
             case MovableBloc.MovementDirection.Horizontal:
-                    movableBloc.rb.velocity = new Vector3(direction.x, 0, 0).normalized/_draggingSpeedDivider  * _speed * Time.fixedDeltaTime;
-                    _rb.velocity = new Vector3(direction.x, 0, 0).normalized/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
+                _rb.velocity = new Vector3(direction.x, 0, 0).normalized / _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
+                movableBloc.rb.velocity = new Vector3(direction.x, 0, 0).normalized/_draggingSpeedDivider  * _speed * Time.fixedDeltaTime;
                 break;
             case MovableBloc.MovementDirection.Vertical:
-                movableBloc.rb.velocity = new Vector3(0, 0, direction.z).normalized/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
                 _rb.velocity = new Vector3(0, 0, direction.z).normalized/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
+                movableBloc.rb.velocity = new Vector3(0, 0, direction.z).normalized/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
                 break;
             case MovableBloc.MovementDirection.All:
-                    movableBloc.rb.velocity = direction/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
                     _rb.velocity = direction/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
+                    movableBloc.rb.velocity = direction/ _draggingSpeedDivider * _speed * Time.fixedDeltaTime;
                 break;
         }
     }
