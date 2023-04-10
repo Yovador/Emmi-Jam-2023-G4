@@ -83,7 +83,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 119
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -137,4 +137,4 @@ MonoBehaviour:
       m_Calls: []
   _mask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
