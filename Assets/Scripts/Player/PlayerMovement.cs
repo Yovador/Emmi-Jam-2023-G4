@@ -40,6 +40,10 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _rb;
     private Vector3 _lastDirection = new Vector3();
 
+    //BIG BIG TEMPORARY - NEED TO SEPERATE CAM CONTROL FROM OLD PLAYERBEHAVIOUR
+    [Inject] private PlayerBehavior _playerBehavior;
+    private float _camRotation => _playerBehavior.CameraRotation;
+
     [Inject] private PlayerStateMachine _playerStateMachine;
     [Inject]
     private void Bindings()
@@ -73,14 +77,13 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         //Temporary, use OldInput System
-        Movement(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized);
+        Movement((Quaternion.AngleAxis(_camRotation, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"))).normalized);
     }
 
     private void Movement(Vector3 direction)
     {
         if(direction != Vector3.zero)
         {
-            _lastDirection = direction;
             Accelerate();
         }
         else
@@ -88,9 +91,11 @@ public class PlayerMovement : MonoBehaviour
             Decelerate();
         }
 
-        Vector3 finalDirection = direction * _currentSpeed;
+        Vector3 finalDirection = (_lastDirection + direction).normalized * _currentSpeed;
         Debug.Log($"[Mvt] {_currentMovementProfilType} Movement {finalDirection} / {_currentSpeed} / {_accelarationTime} / {_decelarationTime}");
         _rb.velocity = finalDirection;
+        _lastDirection = finalDirection.normalized;
+
 
     }
 
