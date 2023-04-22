@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             Decelerate();
         }
 
-        Vector3 finalDirection = CalculateDirection(direction) * _currentSpeed;
+        Vector3 finalDirection = CalculateDirection(direction);
         _rb.velocity = finalDirection;
         _lastDirection = finalDirection.normalized;
     }
@@ -107,9 +107,18 @@ public class PlayerMovement : MonoBehaviour
             if(transform.forward != result)
             {
                 transform.forward += (result.normalized/10) * _currentMovementProfil.RotationSpeed;
-                return transform.forward;
+                return transform.forward * CalculateSpeed(result, _currentSpeed);
             }
         }
+        return result * CalculateSpeed(result, _currentSpeed);
+    }
+
+    private float CalculateSpeed(Vector3 direction, float speed)
+    {
+        float result;
+        float dotProduct = Mathf.Abs(Vector3.Dot(transform.forward.normalized, direction.normalized));
+        result = dotProduct * speed;
+        Debug.Log($"result {result} / {dotProduct} / {transform.forward.normalized} / {direction.normalized}");
         return result;
     }
 
