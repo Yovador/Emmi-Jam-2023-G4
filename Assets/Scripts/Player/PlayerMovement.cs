@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerStateMachine.CurrentState.Subscribe(x => PlayerStateCallback(x));
         _rb = GetComponent<Rigidbody>();
+        _playerStateMachine.CurrentMovementState.Value = PlayerMovementState.Immobile;
     }
 
     private void PlayerStateCallback(PlayerState playerState)
@@ -72,12 +73,13 @@ public class PlayerMovement : MonoBehaviour
     {
         //DEBUG
         _playerStateMachine.CurrentState.Value = PlayerState.Free;
+        _playerStateMachine.CurrentMovementState.Subscribe(x => Debug.Log($"[Ply] Currrent Movement State {x}"));
     }
 
     private void Update()
     {
         //Temporary, use OldInput System
-        Movement((Quaternion.AngleAxis(_camRotation, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"))).normalized);
+        Movement( new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")));
     }
 
     private void Movement(Vector3 direction)
@@ -91,12 +93,24 @@ public class PlayerMovement : MonoBehaviour
             Decelerate();
         }
 
-        Vector3 finalDirection = (_lastDirection + direction).normalized * _currentSpeed;
-        Debug.Log($"[Mvt] {_currentMovementProfilType} Movement {finalDirection} / {_currentSpeed} / {_accelarationTime} / {_decelarationTime}");
+        Vector3 finalDirection = CalculateDirection(direction) * _currentSpeed;
         _rb.velocity = finalDirection;
         _lastDirection = finalDirection.normalized;
+    }
 
-
+    private Vector3 CalculateDirection(Vector3 direction)
+    {
+        Vector3 result = (Quaternion.AngleAxis(_camRotation, Vector3.up) * direction).normalized;
+        result = (_lastDirection + result).normalized;
+        if (direction != Vector3.zero && _currentMovementProfil.RotationSpeed != 0)
+        {
+            if(transform.forward != result)
+            {
+                transform.forward += (result.normalized/10) * _currentMovementProfil.RotationSpeed;
+                return transform.forward;
+            }
+        }
+        return result;
     }
 
     private void Accelerate()
@@ -104,12 +118,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (_currentSpeed < _currentMovementProfil.Speed)
         {
-            Debug.Log($"[Mvt] Accelerate");
+            _playerStateMachine.CurrentMovementState.Value = PlayerMovementState.Accelarating;
             _accelarationTime += Time.fixedDeltaTime;
-            _currentSpeed = GetCelerationFaction(_accelarationTime, _currentMovementProfil.AccelerationCurve);
+            _currentSpeed = GetCelerationFactor(_accelarationTime, _currentMovementProfil.AccelerationCurve) * _currentMovementProfil.Speed;
         }
         else
         {
+            _playerStateMachine.CurrentMovementState.Value = PlayerMovementState.Moving;
             _accelarationTime = 0;
         }
     }
@@ -118,21 +133,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_currentSpeed > 0)
         {
-            Debug.Log($"[Mvt] Decelerate");
+            _playerStateMachine.CurrentMovementState.Value = PlayerMovementState.Decelarating;
             _decelarationTime += Time.fixedDeltaTime;
-            _currentSpeed = GetCelerationFaction(_decelarationTime, _currentMovementProfil.DecelerationCurve);
+            _currentSpeed = GetCelerationFactor(_decelarationTime, _currentMovementProfil.DecelerationCurve) * _currentSpeed;
         }
         else
         {
+            _playerStateMachine.CurrentMovementState.Value = PlayerMovementState.Immobile;
             _decelarationTime = 0;
             _currentSpeed = 0;
         }
     }
 
-    private float GetCelerationFaction(float time, AnimationCurve curve)
+    private float GetCelerationFactor(float time, AnimationCurve curve)
     {
         float celerationFactor = curve.Evaluate(time);
-        return Mathf.Clamp((celerationFactor * _currentMovementProfil.Speed), 0, _currentMovementProfil.Speed);
+        return celerationFactor;
     }
-
 }

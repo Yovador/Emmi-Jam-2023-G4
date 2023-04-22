@@ -19,12 +19,15 @@ public class PlayerMovementProfil
     [SerializeField]
     private AnimationCurve _decelerationCurve;
     [SerializeField]
-    private float _speed;
+    private float _speed; 
+    [SerializeField]
+    private float _rotationSpeed;
 
     public PlayerMovementProfilType Type { get => _type; set => _type = value; }
     public AnimationCurve AccelerationCurve { get => _accelerationCurve; set => _accelerationCurve = value; }
     public AnimationCurve DecelerationCurve { get => _decelerationCurve; set => _decelerationCurve = value; }
     public float Speed { get => _speed; set => _speed = value; }
+    public float RotationSpeed { get => _rotationSpeed; set => _rotationSpeed = value; }
 
     public PlayerMovementProfil(PlayerMovementProfilType type)
     {
