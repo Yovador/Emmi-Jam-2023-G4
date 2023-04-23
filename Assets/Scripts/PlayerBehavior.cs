@@ -40,6 +40,8 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     public Animator animator;
     public float CameraRotation => _cameraRotation;
 
+    public bool gamePaused;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -50,7 +52,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
 
     void Update()
     {
-
+        if (gamePaused) return;
         direction = Quaternion.AngleAxis(_cameraRotation, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if (direction != Vector3.zero) _isMoving = true;
         else _isMoving = false;
@@ -94,6 +96,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private async UniTask RotateTerrain(int direction)
     {
         if (_isRotating){ return; }
+        if (_virtualCam == null) return;
         _isRotating = true;
         _isMoving = false;
         _cameraRotation = (_cameraRotation - 90*direction) % 360;
@@ -116,9 +119,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             if (_playerGrab.interactable == null) { return; }
             GameObject interactObj = (_playerGrab.interactable as MonoBehaviour).gameObject;
             DraggingBehaviour();
-            
         }
-        
     }
 
     void DraggingBehaviour()
