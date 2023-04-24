@@ -44,8 +44,10 @@ public class LevelManager : MonoBehaviour
 
     public void ResetLevel()
     {
-        LoadLevel(_levelList[_currentLvl]);
+        //LoadLevel(_levelList[_currentLvl]);
+        ReloadLevelAsync(_levelList[_currentLvl]).Forget();
     }
+
 
     private async UniTask UnloadLevelAsync(LevelData level)
     {
@@ -59,6 +61,18 @@ public class LevelManager : MonoBehaviour
     {
         _transitionAnimator.SetTrigger("Next");
         await UniTask.Delay(700);
+        await UnloadLevelAsync(level);
+        Debug.Log($"[Lvl] Start LoadLevel {level.SceneName}");
+        await SceneManager.LoadSceneAsync(level.SceneName, LoadSceneMode.Additive);
+        Debug.Log($"[Lvl] Finish LoadLevel {level.SceneName}");
+        _currentLvl = _levelList.IndexOf(level);
+    }
+
+    private async UniTask ReloadLevelAsync(LevelData level)
+    {
+        _transitionAnimator.SetTrigger("Death");
+        await UniTask.Delay(300);
+        _transitionAnimator.ResetTrigger("Death");
         await UnloadLevelAsync(level);
         Debug.Log($"[Lvl] Start LoadLevel {level.SceneName}");
         await SceneManager.LoadSceneAsync(level.SceneName, LoadSceneMode.Additive);

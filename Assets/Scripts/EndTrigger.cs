@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using DG.Tweening;
 
 public class EndTrigger : MonoBehaviour
 {
@@ -10,10 +11,14 @@ public class EndTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<PlayerBehavior>() != null)
+        PlayerBehavior _player = other.GetComponent<PlayerBehavior>();
+        if (_player != null)
         {
             Debug.Log("END");
-            _levelManager.NextLevel();
+            _player.JumpTo(transform.position, () =>
+            {
+                _levelManager.NextLevel();
+            });
         }
     }
 }
