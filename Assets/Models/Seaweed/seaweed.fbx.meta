@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: algue
-    second: {fileID: 2100000, guid: d11a3e84e598eed4fb53492c80fe4ec7, type: 2}
+    second: {fileID: 2100000, guid: 1558c71735f0c8c42ae3a18d9b0f2a20, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: feuille
-    second: {fileID: 2100000, guid: f77cadd1a95477c4187b2c1481217e7f, type: 2}
+    second: {fileID: 2100000, guid: 1558c71735f0c8c42ae3a18d9b0f2a20, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
