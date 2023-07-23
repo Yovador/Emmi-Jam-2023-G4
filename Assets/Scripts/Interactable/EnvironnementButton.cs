@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,10 +29,11 @@ public class EnvironnementButton : Toggleable, IInteractable
     private async UniTask AsyncActivateSound()
     {
         await UniTask.Delay(1000);
+        await UniTask.WaitUntil(() => _audioSource != null);
         _audioSource.mute = false;
     }
 
-    public void Interact()
+    public void Interact(Action<PlayerInteractType> callback)
     {
         _audioSource?.Play();
         Switch();

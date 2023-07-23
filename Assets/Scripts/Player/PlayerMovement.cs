@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    //BIG BIG TEMPORARY - NEED TO SEPERATE CAM CONTROL FROM OLD PLAYERBEHAVIOUR
+    //TODO BIG BIG TEMPORARY - NEED TO SEPERATE CAM CONTROL FROM OLD PLAYERBEHAVIOUR
     [Inject] private PlayerBehavior _playerBehavior;
     private float _camRotation => _playerBehavior.CameraRotation;
 
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        //Temporary, use OldInput System
+        //TODO : Temporary, use OldInput System
         Movement( new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")));
     }
 

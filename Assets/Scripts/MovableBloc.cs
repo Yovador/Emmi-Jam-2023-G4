@@ -59,4 +59,5 @@ public class MovableBloc : MonoBehaviour, IInteractable
         }
         Debug.Log($"[Mvb] Constraints {rb.constraints}");
     }
+
 }
