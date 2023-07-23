@@ -565,6 +565,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     _speed: 2.5
     _rotationSpeed: 1.75
+    _instantTurnThreadshold: -0.75
   - _profilName: Pushing
     _type: 1
     _accelerationCurve:
@@ -617,6 +618,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     _speed: 2
     _rotationSpeed: 0
+    _instantTurnThreadshold: -0.75
   - _profilName: Freeze
     _type: 2
     _accelerationCurve:

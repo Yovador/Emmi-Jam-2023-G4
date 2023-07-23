@@ -22,12 +22,14 @@ public class PlayerMovementProfil
     private float _speed; 
     [SerializeField]
     private float _rotationSpeed;
-
-    public PlayerMovementProfilType Type { get => _type; set => _type = value; }
-    public AnimationCurve AccelerationCurve { get => _accelerationCurve; set => _accelerationCurve = value; }
-    public AnimationCurve DecelerationCurve { get => _decelerationCurve; set => _decelerationCurve = value; }
-    public float Speed { get => _speed; set => _speed = value; }
-    public float RotationSpeed { get => _rotationSpeed; set => _rotationSpeed = value; }
+    [SerializeField, Range(-1f, 1f)]
+    private float _instantTurnThreadshold;
+    public PlayerMovementProfilType Type { get => _type; private set => _type = value; }
+    public AnimationCurve AccelerationCurve { get => _accelerationCurve; private set => _accelerationCurve = value; }
+    public AnimationCurve DecelerationCurve { get => _decelerationCurve; private set => _decelerationCurve = value; }
+    public float Speed { get => _speed; private set => _speed = value; }
+    public float RotationSpeed { get => _rotationSpeed; private set => _rotationSpeed = value; }
+    public float InstantTurnThreadshold { get => _instantTurnThreadshold; private set => _instantTurnThreadshold = value; }
 
     public PlayerMovementProfil(PlayerMovementProfilType type)
     {
@@ -35,6 +37,7 @@ public class PlayerMovementProfil
         Speed = 1;
         AccelerationCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(1, 1)});
         DecelerationCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0, 1), new Keyframe(1, 0)});
+        InstantTurnThreadshold = 0.70f;
         SetupProfilNameInspector();
     }
 
@@ -44,6 +47,7 @@ public class PlayerMovementProfil
         Speed = speed;
         AccelerationCurve = new AnimationCurve();
         DecelerationCurve = new AnimationCurve();
+        InstantTurnThreadshold = 0.70f;
         SetupProfilNameInspector();
     }
 

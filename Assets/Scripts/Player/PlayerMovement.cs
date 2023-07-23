@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
         new PlayerMovementProfil(PlayerMovementProfilType.Pushing),
         new PlayerMovementProfil(PlayerMovementProfilType.Freeze, 0),
     };
+    [SerializeField]
+    private LogTrace _logger = new LogTrace();
 
     private PlayerMovementProfilType _currentMovementProfilType;
     private PlayerMovementProfil _currentMovementProfil
@@ -39,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
     private float _decelarationTime = 0;
     private Rigidbody _rb;
     private Vector3 _lastDirection = new Vector3();
+
+
 
     //BIG BIG TEMPORARY - NEED TO SEPERATE CAM CONTROL FROM OLD PLAYERBEHAVIOUR
     [Inject] private PlayerBehavior _playerBehavior;
@@ -73,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //DEBUG
         _playerStateMachine.CurrentState.Value = PlayerState.Free;
-        _playerStateMachine.CurrentMovementState.Subscribe(x => Debug.Log($"[Ply] Currrent Movement State {x}"));
+        _playerStateMachine.CurrentMovementState.Subscribe(x => _logger.Log($"Currrent Movement State {x}"));
     }
 
     private void Update()
@@ -100,13 +104,23 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 CalculateDirection(Vector3 direction)
     {
-        Vector3 result = (Quaternion.AngleAxis(_camRotation, Vector3.up) * direction).normalized;
-        result = (_lastDirection + result).normalized;
+        Vector3 rawResult = (Quaternion.AngleAxis(_camRotation, Vector3.up) * direction).normalized;
+        Vector3 result = (_lastDirection + rawResult).normalized;
         if (direction != Vector3.zero && _currentMovementProfil.RotationSpeed != 0)
         {
             if(transform.forward != result)
             {
-                transform.forward += (result.normalized/10) * _currentMovementProfil.RotationSpeed;
+                var dot = Vector3.Dot(transform.forward, rawResult.normalized) ;
+                var autoTurnAround = dot <= _currentMovementProfil.InstantTurnThreadshold;
+                _logger.Log($"CalculateDirection : transform.forward {transform.forward} / rawResult.normalized {rawResult.normalized} / dot : {dot} / autoTurnAround : {autoTurnAround}");
+                if (autoTurnAround)
+                {
+                    transform.forward = rawResult.normalized;
+                }
+                else
+                {
+                    transform.forward += (result.normalized/10) * _currentMovementProfil.RotationSpeed;
+                }
                 return transform.forward * CalculateSpeed(result, _currentSpeed);
             }
         }
@@ -118,13 +132,11 @@ public class PlayerMovement : MonoBehaviour
         float result;
         float dotProduct = Mathf.Abs(Vector3.Dot(transform.forward.normalized, direction.normalized));
         result = dotProduct * speed;
-        Debug.Log($"result {result} / {dotProduct} / {transform.forward.normalized} / {direction.normalized}");
         return result;
     }
 
     private void Accelerate()
     {
-
         if (_currentSpeed < _currentMovementProfil.Speed)
         {
             _playerStateMachine.CurrentMovementState.Value = PlayerMovementState.Accelarating;
@@ -159,4 +171,10 @@ public class PlayerMovement : MonoBehaviour
         float celerationFactor = curve.Evaluate(time);
         return celerationFactor;
     }
+
+    #region Debug
+
+
+
+    #endregion
 }
