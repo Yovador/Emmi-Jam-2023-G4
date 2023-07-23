@@ -29,6 +29,7 @@ public class LightBehaviour : Toggleable
 
     private void CastLight()
     {
+        if (_receivers == null) return;
         foreach (ILightReceiver target in _receivers)
         {
             Transform targetTransform = (target as MonoBehaviour).transform;

@@ -40,6 +40,12 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     public Animator animator;
     public float CameraRotation => _cameraRotation;
 
+    public bool gamePaused = false;
+    public bool specialAnim = false;
+
+    [Inject]
+    private LevelManager _levelManager;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -50,7 +56,12 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
 
     void Update()
     {
-
+        if (gamePaused) {
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isDragging", false);
+            direction = Vector3.zero;
+            return;
+        }
         direction = Quaternion.AngleAxis(_cameraRotation, Vector3.up) * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if (direction != Vector3.zero) _isMoving = true;
         else _isMoving = false;
@@ -94,6 +105,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
     private async UniTask RotateTerrain(int direction)
     {
         if (_isRotating){ return; }
+        if (_virtualCam == null) return;
         _isRotating = true;
         _isMoving = false;
         _cameraRotation = (_cameraRotation - 90*direction) % 360;
@@ -116,9 +128,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             if (_playerGrab.interactable == null) { return; }
             GameObject interactObj = (_playerGrab.interactable as MonoBehaviour).gameObject;
             DraggingBehaviour();
-            
         }
-        
     }
 
     void DraggingBehaviour()
@@ -146,7 +156,10 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
 
     public void ReceiveLight()
     {
-        Death().Forget();
+        Debug.Log("SHOULD DIE HERE");
+        gamePaused = true;
+        _levelManager.ResetLevel();
+        //Death().Forget();
     }
 
     private async UniTask Death()
@@ -157,17 +170,20 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         OnDestroy.Invoke();
         await UniTask.Delay(500);
         _transitionAnimator.ResetTrigger("Death");
-        if(_rb == null) { return; }
-        _rb.velocity = Vector3.zero;
-        transform.position = _defaultPos;
-        transform.rotation = _defaultRot;
-        isDragging = false;
-        animator.SetBool("isWalking", false);
-        animator.SetBool("isDragging", false);
+        //if(_rb == null) { return; }
+        //_rb.velocity = Vector3.zero;
+        //transform.position = _defaultPos;
+        //transform.rotation = _defaultRot;
+        //isDragging = false;
+        //animator.SetBool("isWalking", false);
+        //animator.SetBool("isDragging", false);
+        _levelManager.ResetLevel();
+
     }
 
     public void AnimatePlayer()
     {
+        if (specialAnim) return;
         if (direction != Vector3.zero) //walking
         {
             animator.SetBool("isWalking", true);
@@ -185,4 +201,16 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
             animator.SetBool("isDragging", false);
         }
     }
+
+    public void JumpTo(Vector3 _position, Action onComplete = null)
+    {
+        specialAnim = true;
+        transform.DOMove(_position, 1f).OnComplete(() =>
+        {
+            specialAnim = false;
+            onComplete?.Invoke();
+        });
+    }
+
+
 }
