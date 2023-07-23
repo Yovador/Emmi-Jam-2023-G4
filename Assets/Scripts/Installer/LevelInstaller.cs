@@ -12,6 +12,8 @@ public class LevelInstaller : MonoInstaller
     private LevelData _levelData;
     [SerializeField]
     private CinemachineVirtualCamera _cinemachineVirtualCamera;
+    [SerializeField]
+    private LogTrace _logger = new LogTrace();
 
     public override void InstallBindings()
     {
@@ -33,7 +35,7 @@ public class LevelInstaller : MonoInstaller
         {
             result.Add(child);
         }
-        Debug.Log($"[Lgt] result {result.Count}");
+        _logger.Log($"result {result.Count}");
         return result;
     }
 }

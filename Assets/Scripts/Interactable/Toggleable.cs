@@ -14,6 +14,8 @@ public class Toggleable : MonoBehaviour
     private UnityEvent _onActivate;
     [SerializeField]
     private UnityEvent _onDeactivate;
+    [SerializeField]
+    private LogTrace _logger = new LogTrace();
 
     private bool _isOn = false;
     protected bool IsOn
@@ -21,7 +23,7 @@ public class Toggleable : MonoBehaviour
         get { return _isOn; }
         set
         {
-            Debug.Log($"[Tgl] {name} IsOn from {_isOn} to {value}");
+            _logger.Log($"{name} IsOn from {_isOn} to {value}");
             if (value) { _onActivate.Invoke(); }
             else { _onDeactivate.Invoke(); }
             _isOn = value;

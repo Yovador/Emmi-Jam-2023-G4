@@ -138,6 +138,9 @@ MonoBehaviour:
   _onDeactivate:
     m_PersistentCalls:
       m_Calls: []
+  _logger:
+    _logId: Tgl
+    _trace: 1
   buttonType: 0
 --- !u!65 &7831645708861119713
 BoxCollider:

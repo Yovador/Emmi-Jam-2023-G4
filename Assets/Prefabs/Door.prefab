@@ -335,6 +335,9 @@ MonoBehaviour:
   _onDeactivate:
     m_PersistentCalls:
       m_Calls: []
+  _logger:
+    _logId: Tgl
+    _trace: 1
   _open: {fileID: 6424888151187195196}
   _close: {fileID: 2934963281563760362}
 --- !u!1 &7850438752737609186

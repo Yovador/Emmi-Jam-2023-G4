@@ -633,6 +633,10 @@ MonoBehaviour:
       m_RotationOrder: 4
     _speed: 0
     _rotationSpeed: 0
+    _instantTurnThreadshold: -1
+  _logger:
+    _logId: Ply_Mov
+    _trace: 1
 --- !u!54 &161416058
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1273,6 +1277,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelData: {fileID: 11400000, guid: 43ea7c2bfceec3143b79293816ebf4f6, type: 2}
   _cinemachineVirtualCamera: {fileID: 36358931}
+  _logger:
+    _logId: Inst_Lvl
+    _trace: 0
 --- !u!4 &638336376
 Transform:
   m_ObjectHideFlags: 0

@@ -10,6 +10,8 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField]
     private List<LevelData> _levelList = new List<LevelData>();
+    [SerializeField]
+    private LogTrace _logger = new LogTrace();
     [Inject(Id = "Transition")]
     private Animator _transitionAnimator;
     private int _currentLvl = 0;
@@ -62,9 +64,9 @@ public class LevelManager : MonoBehaviour
         _transitionAnimator.SetTrigger("Next");
         await UniTask.Delay(700);
         await UnloadLevelAsync(level);
-        Debug.Log($"[Lvl] Start LoadLevel {level.SceneName}");
+        _logger.Log($"Start LoadLevel {level.SceneName}");
         await SceneManager.LoadSceneAsync(level.SceneName, LoadSceneMode.Additive);
-        Debug.Log($"[Lvl] Finish LoadLevel {level.SceneName}");
+        _logger.Log($"Finish LoadLevel {level.SceneName}");
         _currentLvl = _levelList.IndexOf(level);
     }
 
@@ -74,9 +76,9 @@ public class LevelManager : MonoBehaviour
         await UniTask.Delay(300);
         _transitionAnimator.ResetTrigger("Death");
         await UnloadLevelAsync(level);
-        Debug.Log($"[Lvl] Start LoadLevel {level.SceneName}");
+        _logger.Log($"Start LoadLevel {level.SceneName}");
         await SceneManager.LoadSceneAsync(level.SceneName, LoadSceneMode.Additive);
-        Debug.Log($"[Lvl] Finish LoadLevel {level.SceneName}");
+        _logger.Log($"Finish LoadLevel {level.SceneName}");
         _currentLvl = _levelList.IndexOf(level);
     }
 
