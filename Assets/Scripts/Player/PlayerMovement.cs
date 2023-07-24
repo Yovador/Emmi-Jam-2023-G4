@@ -36,6 +36,9 @@ public class PlayerMovement : MonoBehaviour
             return result;
         }
     }
+    /// <summary>
+    /// The current top speed of the player. Doesn't take into account the rotation of the player
+    /// </summary>
     private float _currentSpeed = 0;
     private float _accelarationTime = 0;
     private float _decelarationTime = 0;
@@ -43,12 +46,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _lastDirection = new Vector3();
 
 
-
     //TODO BIG BIG TEMPORARY - NEED TO SEPERATE CAM CONTROL FROM OLD PLAYERBEHAVIOUR
     [Inject] private PlayerBehavior _playerBehavior;
     private float _camRotation => _playerBehavior.CameraRotation;
 
     [Inject] private PlayerStateMachine _playerStateMachine;
+
     [Inject]
     private void Bindings()
     {
@@ -57,6 +60,26 @@ public class PlayerMovement : MonoBehaviour
         _playerStateMachine.CurrentMovementState.Value = PlayerMovementState.Immobile;
     }
 
+    #region Temporary Methods
+    private void Start()
+    {
+        //DEBUG
+        _playerStateMachine.CurrentState.Value = PlayerState.Free;
+        _playerStateMachine.CurrentMovementState.Subscribe(x => _logger.Log($"Currrent Movement State {x}"));
+    }
+
+    private void Update()
+    {
+        //TODO : Temporary, use OldInput System
+        Movement( new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")));
+    }
+    #endregion
+
+    #region Main Movement Methods
+    /// <summary>
+    /// Update the Movement profil depending of the Player State
+    /// </summary>
+    /// <param name="playerState">The current Player state</param>
     private void PlayerStateCallback(PlayerState playerState)
     {
         switch (playerState)
@@ -73,19 +96,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        //DEBUG
-        _playerStateMachine.CurrentState.Value = PlayerState.Free;
-        _playerStateMachine.CurrentMovementState.Subscribe(x => _logger.Log($"Currrent Movement State {x}"));
-    }
-
-    private void Update()
-    {
-        //TODO : Temporary, use OldInput System
-        Movement( new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")));
-    }
-
+    /// <summary>
+    /// Calculate acceleration and direction than apply them to the player through _rb.velocity
+    /// </summary>
+    /// <param name="direction">Direction of the player Input</param>
     private void Movement(Vector3 direction)
     {
         if(direction != Vector3.zero)
@@ -101,7 +115,14 @@ public class PlayerMovement : MonoBehaviour
         _rb.velocity = finalDirection;
         _lastDirection = finalDirection.normalized;
     }
+    #endregion
 
+    #region Speed and Direction
+    /// <summary>
+    /// Calculate direction of the player using the player input, the camera angle and the precedent direction
+    /// </summary>
+    /// <param name="direction">Direction of the player Input</param>
+    /// <returns>The player direction for this frame movement</returns>
     private Vector3 CalculateDirection(Vector3 direction)
     {
         Vector3 rawResult = (Quaternion.AngleAxis(_camRotation, Vector3.up) * direction).normalized;
@@ -127,6 +148,12 @@ public class PlayerMovement : MonoBehaviour
         return result * CalculateSpeed(result, _currentSpeed);
     }
 
+    /// <summary>
+    /// Caculate the speed of the player for this frame factoring _currentSpeed and direction
+    /// </summary>
+    /// <param name="direction">Direction the Player wants to go</param>
+    /// <param name="speed">Top Speed</param>
+    /// <returns></returns>
     private float CalculateSpeed(Vector3 direction, float speed)
     {
         float result;
@@ -134,7 +161,12 @@ public class PlayerMovement : MonoBehaviour
         result = dotProduct * speed;
         return result;
     }
+    #endregion
 
+    #region Accelerate and Decelerate 
+    /// <summary>
+    /// Calculate and apply Acceleration to current speed
+    /// </summary>
     private void Accelerate()
     {
         if (_currentSpeed < _currentMovementProfil.Speed)
@@ -150,6 +182,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculate and apply Deceleration to current speed
+    /// </summary>
     private void Decelerate()
     {
         if (_currentSpeed > 0)
@@ -165,16 +200,16 @@ public class PlayerMovement : MonoBehaviour
             _currentSpeed = 0;
         }
     }
-
+    /// <summary>
+    /// Get the Celeration factor from a Animation curve at any given tyme
+    /// </summary>
+    /// <param name="time">Current time of celeration</param>
+    /// <param name="curve">Target curve</param>
+    /// <returns>The Celeration factor (strength of the acceleration)</returns>
     private float GetCelerationFactor(float time, AnimationCurve curve)
     {
         float celerationFactor = curve.Evaluate(time);
         return celerationFactor;
     }
-
-    #region Debug
-
-
-
     #endregion
 }

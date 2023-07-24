@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Handles the Player Interaction with IInteractable objets
+/// </summary>
 [RequireComponent(typeof(Collider))]
 public class PlayerInteractor : MonoBehaviour
 {

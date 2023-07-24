@@ -13,6 +13,9 @@ public class PlayerStateMachine : MonoBehaviour
     /// The Current State of the Player Character
     /// </summary>
     public ReactiveProperty<PlayerState> CurrentState { get; private set; } = new ReactiveProperty<PlayerState>();
+    /// <summary>
+    /// The Current Movement State of the Player Character
+    /// </summary>
     public ReactiveProperty<PlayerMovementState> CurrentMovementState { get; private set; } = new ReactiveProperty<PlayerMovementState>();
 
 #region Editor Script
