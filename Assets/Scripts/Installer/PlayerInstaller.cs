@@ -4,6 +4,6 @@ public class PlayerInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        Container.Bind<PlayerStateMachine>().FromComponentSibling();
+        Container.Bind<PlayerStateMachine>().FromComponentSibling().NonLazy();
     }
 }
