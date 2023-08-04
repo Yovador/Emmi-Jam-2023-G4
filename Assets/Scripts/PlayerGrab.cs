@@ -45,8 +45,9 @@ public class PlayerGrab : MonoBehaviour
     {
         Debug.Log($"[Ply] TriggerEnter {other.name}");
         if (interactable != null && Input.GetKey(KeyCode.Space)) return;
+        if (interactable != null) interactable.HideCallToAction();
         interactable = other.GetComponents<Component>().OfType<IInteractable>().FirstOrDefault();
-
+        if(interactable != null) interactable.ShowCallToAction();
     }
 
     private void OnTriggerExit(Collider other)
@@ -54,6 +55,7 @@ public class PlayerGrab : MonoBehaviour
         if(interactable == null) { return; }
         if (interactable == other.GetComponents<Component>().OfType<IInteractable>().FirstOrDefault())
         {
+            interactable.HideCallToAction();
             if(interactable.GetType() == typeof(MovableBloc))
             {
                 MovableBloc movable = interactable as MovableBloc;

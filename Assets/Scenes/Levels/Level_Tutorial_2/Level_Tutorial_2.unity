@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Attention ! La lumi\xE8re vous tue !"
+  m_text: Warning ! Light will kill you.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,

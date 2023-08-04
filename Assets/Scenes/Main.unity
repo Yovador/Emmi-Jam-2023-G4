@@ -1312,7 +1312,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 19f573f369c64814ca3de1496f3ad37b, type: 2}
   - {fileID: 11400000, guid: b9c15bfe0ab28ed498ec83c44ddbfdc1, type: 2}
   - {fileID: 11400000, guid: 48cfc9a460eef6f48b6918e3a8cbba94, type: 2}
-  _deathBackground: {fileID: 1111863426}
 --- !u!1 &1214121327
 GameObject:
   m_ObjectHideFlags: 0
