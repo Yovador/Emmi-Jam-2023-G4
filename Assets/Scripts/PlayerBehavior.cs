@@ -99,7 +99,6 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         {
             RotateTerrain(1).Forget();
         }
-
     }
 
     private async UniTask RotateTerrain(int direction)

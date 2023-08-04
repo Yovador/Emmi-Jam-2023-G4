@@ -18,6 +18,7 @@ public class MovableBloc : MonoBehaviour, IInteractable
     [SerializeField]
     public MovementDirection movementDirection;
     private AudioSource _audioSource;
+    public GameObject callToAction;
 
     void Start()
     {
@@ -58,5 +59,15 @@ public class MovableBloc : MonoBehaviour, IInteractable
             rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
         }
         Debug.Log($"[Mvb] Constraints {rb.constraints}");
+    }
+
+    public void ShowCallToAction()
+    {
+        callToAction.SetActive(true);
+    }
+
+    public void HideCallToAction()
+    {
+        callToAction.SetActive(false);
     }
 }

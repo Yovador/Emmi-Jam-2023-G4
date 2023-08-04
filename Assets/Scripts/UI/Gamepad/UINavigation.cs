@@ -18,7 +18,7 @@ public class UINavigation : MonoBehaviour
 
     private void Start()
     {
-        if (Input.GetJoystickNames()[0] == "") return;
+        if (Input.GetJoystickNames().Length == 0 || Input.GetJoystickNames()[0] == "") return;
         selectedButton.Select();
     }
 

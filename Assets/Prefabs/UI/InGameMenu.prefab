@@ -148,7 +148,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MANETTE
+  m_text: GAMEPAD
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -799,7 +799,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: REPRENDRE
+  m_text: RESUME
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -1245,7 +1245,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Clavier
+  m_text: Keyboard
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Recommencer le niveau
+  m_text: Restart
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -1903,7 +1903,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Tourner la cam\xE9ra"
+  m_text: Turn camera
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -2106,7 +2106,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Menu principal
+  m_text: MAIN MENU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -2242,7 +2242,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "CONTR\xD4LES"
+  m_text: CONTROLS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -2563,7 +2563,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Se d\xE9placer"
+  m_text: Move
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -2699,7 +2699,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Interagir / Attraper
+  m_text: Interact
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -2983,7 +2983,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RETOUR
+  m_text: BACK
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -3308,7 +3308,7 @@ PrefabInstance:
     - target: {fileID: 8481519148164224897, guid: 6b393e5feaf2b1f46bade491c2b85121,
         type: 3}
       propertyPath: m_text
-      value: STICK GAUCHE
+      value: Left stick
       objectReference: {fileID: 0}
     - target: {fileID: 8762222434597995788, guid: 6b393e5feaf2b1f46bade491c2b85121,
         type: 3}
@@ -4048,7 +4048,7 @@ PrefabInstance:
     - target: {fileID: 8481519148164224897, guid: 6b393e5feaf2b1f46bade491c2b85121,
         type: 3}
       propertyPath: m_text
-      value: A / E
+      value: Q / E
       objectReference: {fileID: 0}
     - target: {fileID: 8762222434597995788, guid: 6b393e5feaf2b1f46bade491c2b85121,
         type: 3}
@@ -4233,7 +4233,7 @@ PrefabInstance:
     - target: {fileID: 8481519148164224897, guid: 6b393e5feaf2b1f46bade491c2b85121,
         type: 3}
       propertyPath: m_text
-      value: Espace
+      value: Space
       objectReference: {fileID: 0}
     - target: {fileID: 8762222434597995788, guid: 6b393e5feaf2b1f46bade491c2b85121,
         type: 3}
@@ -4418,7 +4418,7 @@ PrefabInstance:
     - target: {fileID: 8481519148164224897, guid: 6b393e5feaf2b1f46bade491c2b85121,
         type: 3}
       propertyPath: m_text
-      value: ZQSD
+      value: WASD
       objectReference: {fileID: 0}
     - target: {fileID: 8762222434597995788, guid: 6b393e5feaf2b1f46bade491c2b85121,
         type: 3}

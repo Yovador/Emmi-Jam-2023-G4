@@ -38,4 +38,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/End_Scene/End_Scene.unity
     guid: d593de89736933144ac77fcc0afcf810
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: af02529fb9d967e41a3cd5049cc031d3,
+      type: 2}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Zenject;
 
@@ -70,8 +71,10 @@ public class LevelManager : MonoBehaviour
 
     private async UniTask ReloadLevelAsync(LevelData level)
     {
+        //_deathBackground.gameObject.SetActive(true);
         _transitionAnimator.SetTrigger("Death");
         await UniTask.Delay(300);
+        //_deathBackground.gameObject.SetActive(false);
         _transitionAnimator.ResetTrigger("Death");
         await UnloadLevelAsync(level);
         Debug.Log($"[Lvl] Start LoadLevel {level.SceneName}");

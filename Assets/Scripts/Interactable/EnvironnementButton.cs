@@ -15,6 +15,7 @@ public class EnvironnementButton : Toggleable, IInteractable
 
     private Animator _animator;
     public ButtonType buttonType;
+    public GameObject callToAction;
     
 
     private void Start()
@@ -35,6 +36,15 @@ public class EnvironnementButton : Toggleable, IInteractable
     {
         _audioSource?.Play();
         Switch();
+    }
+
+    public void ShowCallToAction() {
+        callToAction.SetActive(true);
+    }
+
+    public void HideCallToAction()
+    {
+        callToAction.SetActive(false);
     }
 
     protected override void Activate()

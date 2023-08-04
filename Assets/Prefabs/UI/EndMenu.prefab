@@ -407,7 +407,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Menu principal
+  m_text: Main menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Merci d'avoir jou\xE9 !"
+  m_text: Thanks for playing !
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea7cda5cbf12710408316109f285d807, type: 2}
   m_sharedMaterial: {fileID: -5492306162438125804, guid: ea7cda5cbf12710408316109f285d807,
