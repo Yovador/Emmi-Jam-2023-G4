@@ -5,5 +5,6 @@ using UnityEngine;
 public enum PlayerInteractType
 {
     Default,
-    Grab
+    Grab,
+    Ungrab
 }

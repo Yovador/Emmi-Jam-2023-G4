@@ -8,5 +8,5 @@ using UnityEngine;
 /// </summary>
 public interface IInteractable
 {
-    public void Interact(Action<PlayerInteractType> callback) { }
+    public void Interact(InteractionCallbackData interactData) {}
 }

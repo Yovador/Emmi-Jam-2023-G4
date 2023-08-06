@@ -33,7 +33,7 @@ public class EnvironnementButton : Toggleable, IInteractable
         _audioSource.mute = false;
     }
 
-    public void Interact(Action<PlayerInteractType> callback)
+    public void Interact(InteractionCallbackData callbackData)
     {
         _audioSource?.Play();
         Switch();

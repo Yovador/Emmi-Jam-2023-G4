@@ -70,7 +70,7 @@ public class PlayerBehavior : MonoBehaviour, ILightReceiver
         if (_playerGrab.interactable != null && Input.GetButtonDown("Submit"))
         {
             Debug.Log("[Ply] Interact");
-            _playerGrab.interactable.Interact((_)=>{});
+            _playerGrab.interactable.Interact(new InteractionCallbackData());
             switch(_playerGrab.interactable)
             {
                 case MovableBloc movableBlock:
