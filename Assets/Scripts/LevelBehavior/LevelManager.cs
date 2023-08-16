@@ -9,12 +9,16 @@ using Zenject;
 
 public class LevelManager : MonoBehaviour
 {
+    #region Properties
     [SerializeField]
     private List<LevelData> _levelList = new List<LevelData>();
     [Inject(Id = "Transition")]
     private Animator _transitionAnimator;
     private int _currentLvl = 0;
+    public List<LevelData> LevelList => _levelList;
+    #endregion
 
+    #region Methods
     public void StartLevel()
     {
         if (_levelList.Count != 0)
@@ -23,18 +27,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonDown("Reset"))
-        {
-            ResetLevel();
-        }
-    }
-
     public void LoadLevel(LevelData level)
     {
         LoadLevelAsync(level).Forget();
-
     }
 
     public void NextLevel()
@@ -96,5 +91,15 @@ public class LevelManager : MonoBehaviour
         await UniTask.Delay(750);
         await SceneManager.LoadSceneAsync("Menu", LoadSceneMode.Additive);
     }
+    #endregion
 
+    #region Unity API
+    private void Update()
+    {
+        if (Input.GetButtonDown("Reset"))
+        {
+            ResetLevel();
+        }
+    }
+    #endregion
 }

@@ -26,6 +26,20 @@ public class MovableBloc : MonoBehaviour, IInteractable
         _audioSource = GetComponent<AudioSource>();
     }
 
+    private void Update()
+    {
+        if (!isActive) return;
+        if (rb.velocity == Vector3.zero)
+        {
+            _audioSource.Stop();
+        }
+        else if (!_audioSource.isPlaying)
+        {
+            _audioSource.Play();
+            _audioSource.loop = true;
+        }
+    }
+
     public void ActivateMove(bool active)
     {
        
@@ -33,8 +47,6 @@ public class MovableBloc : MonoBehaviour, IInteractable
         if (active)
         {
             isActive = true;
-            _audioSource.Play();
-            _audioSource.loop = true;
             switch (movementDirection)
             {
                 case MovementDirection.Horizontal:

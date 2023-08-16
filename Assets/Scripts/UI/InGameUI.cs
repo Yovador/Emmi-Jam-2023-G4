@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class InGameUI : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
-    public GameObject pauseMenu;
-    public GameObject controlMenu;
+    public UINavigation pauseMenu;
+    public UINavigation controlMenu;
     public Button menuButton;
 
     public PlayerBehavior playerBehavior;
@@ -22,10 +23,11 @@ public class InGameUI : MonoBehaviour
     {
         if (canvasGroup.interactable)
         {
+            pauseMenu.CloseMenu();
             canvasGroup.DOFade(0, .3f);
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
-            pauseMenu.SetActive(false);
+            pauseMenu.gameObject.SetActive(false);
             menuButton.gameObject.SetActive(true);
             playerBehavior.gamePaused = false;
         }
@@ -34,24 +36,10 @@ public class InGameUI : MonoBehaviour
             canvasGroup.DOFade(1, .3f);
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
-            pauseMenu.SetActive(true);
+            pauseMenu.gameObject.SetActive(true);
+            pauseMenu.OpenMenu();
             menuButton.gameObject.SetActive(false);
             playerBehavior.gamePaused = true;
-        }
-    }
-
-    public void ControlMenu()
-    {
-        if (controlMenu.gameObject.activeSelf)
-        {
-            controlMenu.gameObject.SetActive(false);
-            pauseMenu.gameObject.SetActive(true);
-            pauseMenu.GetComponent<UINavigation>().selectedButton.Select();
-        }
-        else
-        {
-            controlMenu.gameObject.SetActive(true);
-            pauseMenu.gameObject.SetActive(false);
         }
     }
 
